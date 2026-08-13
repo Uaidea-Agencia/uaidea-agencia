@@ -10,16 +10,17 @@ Agência de marketing digital que une **estratégia, criação e tecnologia**. N
 
 ## Serviços
 
-| Frente | Escopo |
-|---|---|
-| Tráfego pago | Google Ads, Meta Ads e demais plataformas · estruturação, gestão e otimização |
-| Design gráfico | Identidade visual, manual de marca, peças institucionais |
-| Social media | Carrosséis, stories, capas, planejamento de conteúdo |
-| Desenvolvimento web | Front-end e back-end |
-| Produtos web | Landing pages, sites institucionais, sistemas personalizados |
-| Estratégia | Posicionamento de marca, planejamento de marketing digital |
+| Frente              | Escopo                                                                                                              |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Tráfego pago        | Google Ads, Meta Ads e demais plataformas · estruturação, gestão e otimização                                       |
+| Design gráfico      | Identidade visual, manual de marca, peças institucionais                                                            |
+| Social media        | Carrosséis, stories, capas, planejamento de conteúdo                                                                |
+| Desenvolvimento web | Front-end e back-end                                                                                                |
+| Produtos web        | Landing pages, sites institucionais, sistemas personalizados                                                        |
+| Estratégia          | Posicionamento de marca, planejamento de marketing digital                                                          |
+| IA e automação      | Atendimento, qualificação e follow-up automatizados; relatório e base única de leitura de dados do funil do cliente |
 
-**Não declarar sem confirmação:** IA, automação, CRM, tracking, analytics, data science, BI. Essas frentes não constam no escopo oficial. Se forem entrar no site, precisam ser confirmadas e descritas aqui primeiro — anunciar capacidade que a agência não entrega gera lead errado e desgaste na primeira reunião. Enquanto isso, "tecnologia" no site significa **desenvolvimento web**, que é real.
+**Confirmado em 13/08/2026:** a frente "IA e automação" acima passou a fazer parte do escopo oficial — pode aparecer no site. CRM, tracking, analytics, data science e BI **continuam não confirmados como frentes próprias**; só entram no site como capacidades descritas dentro do escopo de "IA e automação" (ex.: "base única de leitura de dados"), nunca como oferta isolada. Qualquer menção a elas fora desse guarda-chuva ainda precisa ser confirmada aqui primeiro.
 
 ## Posicionamento (extraído das peças aprovadas)
 
