@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://registry.npmjs.org/playwright --max-time 8)",
+      "Bash(npx --yes playwright --version)",
+      "Bash(npx --yes playwright install chromium)",
+      "Bash(npx --yes http-server -p 4173 -c-1 .)",
+      "Bash(curl -sf http://localhost:4173/index.html)",
+      "Bash(break)",
+      "Bash(curl -sf -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:4173/index.html)",
+      "Bash(npm install *)",
+      "Bash(mkdir -p shots)",
+      "Bash(node shot.js)",
+      "Bash(node shot2.js)"
+    ]
+  },
+  "enabledPlugins": {
+    "code-review@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "caveman@caveman": true,
+    "obsidian@obsidian-skills": true,
+    "claude-mem@thedotmack": true,
+    "ponytail@ponytail": true,
+    "figma@claude-plugins-official": true
+  }
+}
