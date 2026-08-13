@@ -92,6 +92,7 @@ site com um projeto malformado.
 - Nunca inventar número em `resultado` sem autorização do cliente e dado
   auditável — use `"[ PENDENTE ]"`.
 - Nunca subir vídeo como arquivo — sempre link de YouTube/Vimeo.
-- Nunca editar `projeto-exemplo.json` pra virar um projeto real — crie um
-  arquivo novo. `projeto-exemplo` existe só pra validar que o fluxo
-  funciona.
+- Nunca editar os `projeto-exemplo*.json` (1 a 6) pra virar projeto real —
+  crie um arquivo novo. Eles existem só pra validar o fluxo: o layout de
+  dois cards lado a lado na home, sorteados entre os projetos em destaque
+  a cada carregamento da página (`CasesRotator`).

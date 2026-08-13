@@ -11,7 +11,8 @@
       "Bash(npm install *)",
       "Bash(mkdir -p shots)",
       "Bash(node shot.js)",
-      "Bash(node shot2.js)"
+      "Bash(node shot2.js)",
+      "Bash(npm run *)"
     ]
   },
   "enabledPlugins": {

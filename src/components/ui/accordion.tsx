@@ -2,7 +2,6 @@ import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-
 function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
   return (
     <AccordionPrimitive.Root
@@ -12,7 +11,6 @@ function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
     />
   );
 }
-
 function AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {
   return (
     <AccordionPrimitive.Item
@@ -22,7 +20,6 @@ function AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {
     />
   );
 }
-
 function AccordionTrigger({ className, children, ...props }: AccordionPrimitive.Trigger.Props) {
   return (
     <AccordionPrimitive.Header className="flex">
@@ -47,7 +44,6 @@ function AccordionTrigger({ className, children, ...props }: AccordionPrimitive.
     </AccordionPrimitive.Header>
   );
 }
-
 function AccordionContent({ className, children, ...props }: AccordionPrimitive.Panel.Props) {
   return (
     <AccordionPrimitive.Panel
@@ -66,5 +62,4 @@ function AccordionContent({ className, children, ...props }: AccordionPrimitive.
     </AccordionPrimitive.Panel>
   );
 }
-
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent };

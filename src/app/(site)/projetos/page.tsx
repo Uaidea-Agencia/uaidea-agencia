@@ -1,23 +1,26 @@
 import type { Metadata } from "next";
 
 import { Container } from "@/components/layout/container";
+import { Link } from "@/components/ui/link";
 import { ProjectCard } from "@/components/ui/project-card";
 import { SectionLabel } from "@/components/ui/section-label";
+import { ROUTES } from "@/config/routes";
 import { SITE } from "@/config/site";
 import { projectRepository } from "@/lib/container";
-
 export const metadata: Metadata = {
   title: `Projetos — ${SITE.name}`,
   description:
     "Trabalhos da UAIdea Agência — cliente, problema, solução e resultado, com número real ou [ PENDENTE ] enquanto não houver autorização.",
 };
-
 export default async function ProjetosPage() {
   const projects = await projectRepository.list();
-
   return (
     <section className="dark bg-background text-foreground">
       <Container className="py-16 sm:py-24 lg:py-28">
+        <Link href={ROUTES.home} variant="muted">
+          ← Início
+        </Link>
+
         <SectionLabel tone="dark" className="mb-8">
           Trabalhos
         </SectionLabel>

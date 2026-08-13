@@ -22,6 +22,22 @@ Agência de marketing digital que une **estratégia, criação e tecnologia**. N
 
 **Confirmado em 13/08/2026:** a frente "IA e automação" acima passou a fazer parte do escopo oficial — pode aparecer no site. CRM, tracking, analytics, data science e BI **continuam não confirmados como frentes próprias**; só entram no site como capacidades descritas dentro do escopo de "IA e automação" (ex.: "base única de leitura de dados"), nunca como oferta isolada. Qualquer menção a elas fora desse guarda-chuva ainda precisa ser confirmada aqui primeiro.
 
+### Como as sete linhas viram cinco frentes no site (v2)
+
+A home (`src/content/home.ts`) não expõe as sete linhas da tabela acima uma a uma — ela as agrupa em **cinco frentes públicas**, usadas na seção "O que fazemos" e no formulário de contato:
+
+| Frente no site | Cobre                              |
+| -------------- | ---------------------------------- |
+| Estratégia     | Estratégia                         |
+| Design         | Design gráfico + Social media      |
+| Tráfego pago   | Tráfego pago                       |
+| Tecnologia     | Desenvolvimento web + Produtos web |
+| IA e automação | IA e automação                     |
+
+Esse agrupamento é só apresentação — nenhuma linha da tabela de escopo foi removida, e o formulário de contato (`src/features/contact/schema.ts`) ainda lista as sete opções originais para o visitante escolher.
+
+**Confirmado em 14/08/2026:** o mesmo arquivo (`DISCIPLINES`, usada na faixa animada abaixo do herói) mostra um sexto item, "Dados", ao lado das cinco frentes acima. Isso **não** cria uma frente nova — "Dados" nessa faixa é um recorte visível de "IA e automação" (mesma leitura de "base única de leitura de dados do funil do cliente" já prevista no escopo confirmado em 13/08/2026), não uma oferta isolada de analytics/BI/tracking. CRM, tracking, analytics, data science e BI continuam valendo a restrição original: só aparecem descritos dentro do guarda-chuva de "IA e automação", nunca como linha própria em tabela de serviço, proposta comercial ou nova seção da home.
+
 ## Posicionamento (extraído das peças aprovadas)
 
 O argumento central da marca, já validado no carrossel institucional:

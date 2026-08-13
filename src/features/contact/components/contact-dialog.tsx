@@ -33,8 +33,6 @@ import { formatBRPhone } from "../phone-mask";
 import { contactSchema, SERVICE_OPTIONS, type ContactFormValues } from "../schema";
 import { CONTACT_IDLE_STATE } from "../types";
 
-// "Peça assentando no lugar": stagger de ~70ms entre campos, pequeno
-// overshoot de mola. Só transform e opacity (docs/ui-web.md).
 const fieldsContainerVariants: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.07, delayChildren: 0.12 } },
@@ -54,11 +52,6 @@ interface ContactDialogProps {
   mailtoHref: string;
 }
 
-/**
- * Diálogo de contato — substitui o CTA "Falar com a UAIdea →" que hoje é
- * mailto puro. O mailto continua existindo no <a> real: sem JS, o clique
- * navega normalmente; com JS, o clique é interceptado e o diálogo abre.
- */
 export function ContactDialog({ label, mailtoHref }: ContactDialogProps) {
   const [open, setOpen] = useState(false);
   const [startedAt, setStartedAt] = useState<number | null>(null);
@@ -80,14 +73,11 @@ export function ContactDialog({ label, mailtoHref }: ContactDialogProps) {
     },
   });
 
-  // Reage ao resultado da Server Action (useActionState), não a um evento
-  // síncrono do usuário — é exatamente o caso de uso que useEffect existe
-  // pra cobrir ("subscribe pra updates de um sistema externo").
   useEffect(() => {
     if (state.status === "success") {
       toast.success("Mensagem enviada. A gente responde em breve.");
       form.reset();
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- fechar o diálogo é reação ao resultado assíncrono da action, não deriva de outro estado
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setOpen(false);
     } else if (state.status === "error") {
       if (state.fieldErrors) {
@@ -100,7 +90,7 @@ export function ContactDialog({ label, mailtoHref }: ContactDialogProps) {
           `Não deu pra enviar. Manda direto pra ${mailtoHref.replace("mailto:", "")}.`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- só reage a novo resultado da action, não a form/mailtoHref
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   function onValid() {
@@ -117,8 +107,6 @@ export function ContactDialog({ label, mailtoHref }: ContactDialogProps) {
       onOpenChange={(nextOpen) => {
         setOpen(nextOpen);
         if (nextOpen) {
-          // Timestamp fresco a cada abertura — alimenta a verificação de
-          // tempo mínimo de preenchimento no servidor (actions.ts).
           setStartedAt(Date.now());
         } else {
           form.reset();
@@ -127,11 +115,8 @@ export function ContactDialog({ label, mailtoHref }: ContactDialogProps) {
     >
       <DialogTrigger
         nativeButton={false}
-        className={buttonVariants({ size: "lg" })}
+        className={buttonVariants({ size: "xl" })}
         render={
-          // O conteúdo vem do children de DialogTrigger (padrão render-prop
-          // do Base UI: children viram o conteúdo do elemento renderizado)
-          // — o linter estático não enxerga essa composição neste <a>.
           // eslint-disable-next-line jsx-a11y/anchor-has-content
           <a
             href={mailtoHref}
@@ -162,7 +147,6 @@ export function ContactDialog({ label, mailtoHref }: ContactDialogProps) {
           noValidate
           className="flex flex-col gap-4"
         >
-          {/* Honeypot — escondido de gente, visível pra bot que preenche tudo. */}
           <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
             <label htmlFor="website">Não preencha este campo</label>
             <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
@@ -180,10 +164,7 @@ export function ContactDialog({ label, mailtoHref }: ContactDialogProps) {
                 <FieldLabel htmlFor="nome">Nome</FieldLabel>
                 <Input
                   id="nome"
-                  // Exceção deliberada à regra geral: isto é o primeiro
-                  // campo de um diálogo modal que a pessoa acabou de abrir
-                  // por um clique — não autofoco de carregamento de página.
-                  // eslint-disable-next-line jsx-a11y/no-autofocus -- requisito de acessibilidade do Prompt 6: foco no primeiro campo na abertura do modal
+                  // eslint-disable-next-line jsx-a11y/no-autofocus
                   autoFocus
                   autoComplete="name"
                   aria-invalid={!!form.formState.errors.nome}
@@ -241,11 +222,7 @@ export function ContactDialog({ label, mailtoHref }: ContactDialogProps) {
                   render={({ field }) => (
                     <Select
                       name={field.name}
-                      // O tipo de field.value (via ContactInput/zod) não
-                      // inclui undefined porque "servico" é obrigatório no
-                      // schema — mas defaultValues não o inicializa, então
-                      // no primeiro render ele É undefined em runtime.
-                      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- ver comentário acima
+                      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
                       value={field.value ?? null}
                       onValueChange={(value) => {
                         field.onChange(value);

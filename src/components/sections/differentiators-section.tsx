@@ -2,7 +2,6 @@ import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionLabel } from "@/components/ui/section-label";
 import { DIFFERENTIATORS } from "@/content/home";
-
 export function DifferentiatorsSection() {
   return (
     <section id="diferencial" className="bg-background text-foreground">
@@ -11,7 +10,8 @@ export function DifferentiatorsSection() {
           <SectionLabel tone="light" className="mb-8">
             {DIFFERENTIATORS.label}
           </SectionLabel>
-          <h2 className="text-(--p5) mb-16 max-w-[14ch] text-[clamp(2.125rem,7vw,5.25rem)] leading-none font-extrabold tracking-[-0.03em]">
+
+          <h2 className="text-(--p5) font-body mb-16 max-w-[14ch] text-[clamp(2.125rem,7vw,5.25rem)] leading-none font-extrabold tracking-[-0.03em]">
             {DIFFERENTIATORS.heading}
           </h2>
         </Reveal>

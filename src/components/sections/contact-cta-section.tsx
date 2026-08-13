@@ -1,14 +1,9 @@
 import { Container } from "@/components/layout/container";
+import { Link } from "@/components/ui/link";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionLabel } from "@/components/ui/section-label";
 import { CONTACT } from "@/content/home";
 import { ContactDialog } from "@/features/contact/components/contact-dialog";
-
-/**
- * CTA final — "Falar com a UAIdea →" abre o diálogo com formulário
- * (Prompt 6). O mailto não sumiu: é o próprio href do gatilho, fallback
- * real sem JS (ver ContactDialog).
- */
 export function ContactCtaSection() {
   return (
     <section id="contato" className="dark cta-gradient text-foreground relative overflow-hidden">
@@ -27,12 +22,9 @@ export function ContactCtaSection() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-7">
             <ContactDialog label={CONTACT.primaryCta.label} mailtoHref={CONTACT.primaryCta.href} />
-            <a
-              href={CONTACT.instagram.href}
-              className="text-muted-foreground hover:text-foreground focus-visible:ring-ring rounded-sm text-base font-semibold tracking-[0.02em] underline decoration-1 underline-offset-4 outline-none focus-visible:ring-2"
-            >
+            <Link href={CONTACT.instagram.href} variant="underline">
               {CONTACT.instagram.label}
-            </a>
+            </Link>
           </div>
           <p className="text-(--c6) mt-8 font-mono text-xs tracking-widest">
             {CONTACT.emailDisplay}

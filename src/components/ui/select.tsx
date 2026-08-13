@@ -5,9 +5,7 @@ import { ChevronDownIcon, CheckIcon, ChevronUpIcon } from "lucide-react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-
 const Select = SelectPrimitive.Root;
-
 function SelectGroup({ className, ...props }: SelectPrimitive.Group.Props) {
   return (
     <SelectPrimitive.Group
@@ -17,7 +15,6 @@ function SelectGroup({ className, ...props }: SelectPrimitive.Group.Props) {
     />
   );
 }
-
 function SelectValue({ className, ...props }: SelectPrimitive.Value.Props) {
   return (
     <SelectPrimitive.Value
@@ -27,7 +24,6 @@ function SelectValue({ className, ...props }: SelectPrimitive.Value.Props) {
     />
   );
 }
-
 function SelectTrigger({
   className,
   size = "default",
@@ -53,7 +49,6 @@ function SelectTrigger({
     </SelectPrimitive.Trigger>
   );
 }
-
 function SelectContent({
   className,
   children,
@@ -76,13 +71,13 @@ function SelectContent({
         align={align}
         alignOffset={alignOffset}
         alignItemWithTrigger={alignItemWithTrigger}
-        className="isolate z-50"
+        className="isolate z-90"
       >
         <SelectPrimitive.Popup
           data-slot="select-content"
           data-align-trigger={alignItemWithTrigger}
           className={cn(
-            "relative isolate z-50 max-h-(--available-height) w-(--anchor-width) min-w-36 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-lg bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-[align-trigger=true]:animate-none data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+            "relative isolate z-90 max-h-(--available-height) w-(--anchor-width) min-w-36 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-lg bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-[align-trigger=true]:animate-none data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
             className,
           )}
           {...props}
@@ -95,7 +90,6 @@ function SelectContent({
     </SelectPrimitive.Portal>
   );
 }
-
 function SelectLabel({ className, ...props }: SelectPrimitive.GroupLabel.Props) {
   return (
     <SelectPrimitive.GroupLabel
@@ -105,7 +99,6 @@ function SelectLabel({ className, ...props }: SelectPrimitive.GroupLabel.Props) 
     />
   );
 }
-
 function SelectItem({ className, children, ...props }: SelectPrimitive.Item.Props) {
   return (
     <SelectPrimitive.Item
@@ -129,7 +122,6 @@ function SelectItem({ className, children, ...props }: SelectPrimitive.Item.Prop
     </SelectPrimitive.Item>
   );
 }
-
 function SelectSeparator({ className, ...props }: SelectPrimitive.Separator.Props) {
   return (
     <SelectPrimitive.Separator
@@ -139,7 +131,6 @@ function SelectSeparator({ className, ...props }: SelectPrimitive.Separator.Prop
     />
   );
 }
-
 function SelectScrollUpButton({
   className,
   ...props
@@ -157,7 +148,6 @@ function SelectScrollUpButton({
     </SelectPrimitive.ScrollUpArrow>
   );
 }
-
 function SelectScrollDownButton({
   className,
   ...props
@@ -175,7 +165,6 @@ function SelectScrollDownButton({
     </SelectPrimitive.ScrollDownArrow>
   );
 }
-
 export {
   Select,
   SelectContent,

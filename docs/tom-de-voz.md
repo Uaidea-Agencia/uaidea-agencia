@@ -37,16 +37,16 @@ Toda seção longa segue o mesmo arco já validado:
 
 **Evitar:**
 
-| Não escrever | Motivo |
-|---|---|
-| "soluções inovadoras", "revolucionar" | vazio, todo concorrente usa |
-| "parceiro de sucesso", "jornada" | clichê de agência |
-| "engajamento" como objetivo final | contraria a tese da marca |
-| "somos apaixonados por..." | não diz nada ao decisor |
-| "com certeza", "sem dúvidas" | promessa não verificável |
-| anglicismo desnecessário (*insights*, *deliver*, *awareness*) | público não é do meio |
+| Não escrever                                                            | Motivo                                               |
+| ----------------------------------------------------------------------- | ---------------------------------------------------- |
+| "soluções inovadoras", "revolucionar"                                   | vazio, todo concorrente usa                          |
+| "parceiro de sucesso", "jornada"                                        | clichê de agência                                    |
+| "engajamento" como objetivo final                                       | contraria a tese da marca                            |
+| "somos apaixonados por..."                                              | não diz nada ao decisor                              |
+| "com certeza", "sem dúvidas"                                            | promessa não verificável                             |
+| anglicismo desnecessário (_insights_, _deliver_, _awareness_)           | público não é do meio                                |
 | inglês como decoração (`DATA`, `TRACKING`, `PERFORMANCE` em caixa alta) | parece sofisticado para o meio, opaco para o cliente |
-| emoji em copy de site | não faz parte do sistema |
+| emoji em copy de site                                                   | não faz parte do sistema                             |
 
 ### Inglês: quando pode
 
@@ -66,6 +66,18 @@ Teste: se o dono de uma loja de materiais de construção precisar parar para tr
 
 ❌ "Nossos clientes amam nosso trabalho!"
 ✅ "[ PENDENTE — inserir case com número real ]"
+
+## Referência viva: copy já publicada na v2 (`src/content/home.ts`)
+
+Os exemplos acima são didáticos. Os abaixo já passaram pelo filtro e estão no ar — use-os como calibre em vez de inventar um novo par ❌/✅ a cada revisão:
+
+- **Gancho + diagnóstico (herói):** "Marketing para quem mede o **resultado**, não o alcance." — verbo forte, contraste direto, sem anglicismo.
+- **Sintomas, paralelismo rígido (posicionamento, coluna "o jeito comum"):** "Entrega tarefa e mede entrega. / Criativo bonito, oferta indefinida. / Relatório de alcance no fim do mês. / Site feito por um, tráfego por outro. / Tecnologia terceirizada, dados perdidos." — mesma classe gramatical, mesmo tamanho aproximado, sem marcador.
+- **Elevação (diferencial):** "Um post nunca é o objetivo final. É meio, e às vezes nem isso." — tira a conversa do tático, reforça a tese da marca.
+- **CTA que força escolha (seção de contato):** "Seu problema não é falta de post." seguido de "Falar com a UAIdea →" — pergunta/afirmação de gancho, benefício explícito, verbo no infinitivo no botão.
+- **Número ausente tratado com honestidade (cases):** `stats` inteiro em `[ — ]` até existir dado real e autorizado — nunca "+100 clientes atendidos" de enchimento.
+
+Ao escrever copy nova, teste contra este bloco antes de testar contra a lista de exemplos hipotéticos: se o tom destoar do que já está publicado, o problema geralmente está na copy nova, não na referência.
 
 ## Nome da marca
 

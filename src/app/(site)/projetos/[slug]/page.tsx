@@ -1,53 +1,45 @@
 import type { Metadata } from "next";
 
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Container } from "@/components/layout/container";
+import { Link } from "@/components/ui/link";
 import { SectionLabel } from "@/components/ui/section-label";
 import { VideoFacade } from "@/components/ui/video-facade";
 import { ROUTES } from "@/config/routes";
 import { SITE } from "@/config/site";
 import { projectRepository } from "@/lib/container";
-
 interface ProjectPageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{
+    slug: string;
+  }>;
 }
-
 export async function generateStaticParams() {
   const projects = await projectRepository.list();
   return projects.map((project) => ({ slug: project.slug }));
 }
-
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = await projectRepository.findBySlug(slug);
   if (!project) {
     return {};
   }
-
   return {
     title: `${project.cliente} — ${SITE.name}`,
     description: project.resumo,
   };
 }
-
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
   const project = await projectRepository.findBySlug(slug);
-
   if (!project) {
     notFound();
   }
-
   return (
     <section className="dark bg-background text-foreground">
       <Container className="py-16 sm:py-24 lg:py-28">
-        <Link
-          href={ROUTES.projetos}
-          className="text-muted-foreground hover:text-foreground focus-visible:ring-ring mb-10 inline-block rounded-sm text-sm outline-none focus-visible:ring-2"
-        >
+        <Link href={ROUTES.projetos} variant="muted">
           ← Todos os projetos
         </Link>
 

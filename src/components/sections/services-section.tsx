@@ -5,7 +5,6 @@ import { Reveal } from "@/components/ui/reveal";
 import { SectionLabel } from "@/components/ui/section-label";
 import { ROUTES } from "@/config/routes";
 import { SERVICES } from "@/content/home";
-
 export function ServicesSection() {
   return (
     <section id="servicos" className="dark bg-background text-foreground">
@@ -33,10 +32,10 @@ export function ServicesSection() {
               <span className="text-primary w-11 shrink-0 font-mono text-sm tracking-[0.14em]">
                 {service.idx}
               </span>
-              <span className="min-w-60 flex-1 text-[clamp(1.5rem,3.4vw,2.625rem)] leading-[1.05] font-bold tracking-[-0.02em] uppercase">
+              <span className="flex-1 text-[clamp(1.5rem,3.4vw,2.625rem)] leading-[1.05] font-bold tracking-[-0.02em] uppercase sm:min-w-60">
                 {service.title}
               </span>
-              <span className="text-muted-foreground min-w-80 flex-1 text-base leading-snug">
+              <span className="text-muted-foreground max-[500px]:order-1 max-[500px]:basis-full flex-1 text-base leading-snug sm:min-w-80">
                 {service.desc}
               </span>
               <ArrowRight

@@ -2,7 +2,6 @@ import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionLabel } from "@/components/ui/section-label";
 import { POSITIONING } from "@/content/home";
-
 export function PositioningSection() {
   return (
     <section id="posicionamento" className="bg-background text-foreground">
@@ -14,7 +13,7 @@ export function PositioningSection() {
         <div className="border-(--c3)">
           <Reveal
             index={0}
-            className="grid grid-cols-1 items-baseline gap-3 border-t border-(--c3) py-9 sm:grid-cols-[240px_1fr] sm:gap-10"
+            className="grid grid-cols-1 items-baseline gap-3 border-t border-(--c3) py-9 sm:grid-cols-2 sm:gap-10"
           >
             <span className="font-mono text-xs tracking-[0.14em] text-(--c8) uppercase">
               {POSITIONING.marketRow.tag}
@@ -30,7 +29,7 @@ export function PositioningSection() {
 
           <Reveal
             index={1}
-            className="grid grid-cols-1 items-baseline gap-3 border-t border-(--c3) py-9 sm:grid-cols-[240px_1fr] sm:gap-10"
+            className="grid grid-cols-1 items-baseline gap-3 border-t border-(--c3) py-9 sm:grid-cols-2 sm:gap-10"
           >
             <span className="font-mono text-xs tracking-[0.14em] text-(--c8) uppercase">
               {POSITIONING.agencyRow.tag}
@@ -44,7 +43,7 @@ export function PositioningSection() {
 
           <Reveal
             index={2}
-            className="grid grid-cols-1 items-start gap-3 border-t border-b border-(--c3) py-9 sm:grid-cols-[240px_1fr] sm:gap-10"
+            className="grid grid-cols-1 items-start gap-3 border-t border-b border-(--c3) py-9 sm:grid-cols-2 sm:gap-10"
           >
             <span className="font-mono text-xs tracking-[0.14em] text-(--c8) uppercase">
               {POSITIONING.answer.tag}

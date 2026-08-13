@@ -5,26 +5,16 @@ import Image from "next/image";
 import { useState } from "react";
 
 import type { ProjectVideo } from "@/types/project";
-
 const EMBED_URL: Record<ProjectVideo["provider"], (id: string) => string> = {
-  // *-nocookie / dnt=1: sem cookie de rastreio antes do clique do usuário.
   youtube: (id) => `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`,
   vimeo: (id) => `https://player.vimeo.com/video/${id}?autoplay=1&dnt=1`,
 };
-
 interface VideoFacadeProps {
   video: ProjectVideo;
   className?: string;
 }
-
-/**
- * Vídeo carregado por facade: thumbnail estática até o clique, iframe só
- * monta depois. O player (YouTube/Vimeo) é pesado — sem isso ele entra
- * no orçamento de LCP mesmo fora da dobra (docs empresa.md / Prompt 5).
- */
 export function VideoFacade({ video, className }: VideoFacadeProps) {
   const [isPlaying, setIsPlaying] = useState(false);
-
   if (isPlaying) {
     return (
       <iframe
@@ -36,7 +26,6 @@ export function VideoFacade({ video, className }: VideoFacadeProps) {
       />
     );
   }
-
   return (
     <button
       type="button"

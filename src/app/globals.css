@@ -4,13 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ==========================================================================
- * Tokens de marca — docs/marca.md (lei, itens sem ⚠) e docs/ui-web.md
- * (padrão do repo, tudo ⚠). Nunca usar hex solto fora deste arquivo —
- * sempre var(--p1), bg-p1 etc. no resto do código.
- * ========================================================================== */
 :root {
-  /* Marca */
   --p1: #a600ff;
   --p2: #9d10e7;
   --p3: #6d00a7;
@@ -18,7 +12,6 @@
   --p5: #1b002a;
   --base: #ad9eb5;
 
-  /* Escala neutra */
   --c12: #000000;
   --c11: #111111;
   --c10: #2e2e2e;
@@ -32,14 +25,9 @@
   --c2: #ededed;
   --c1: #f7f7f7;
   --w: #ededed;
-  /* Branco puro — não é um token de docs/marca.md (o "branco institucional"
-     de lá é --w, um off-white). Existe só pra texto sobre --p1: contraste
-     com --w dá 4.41:1 (Lighthouse/axe reprovam, precisa 4.5:1); com branco
-     puro dá 5.2:1. A própria peça aprovada pelo Claude Design já usava
-     #FFFFFF nos botões — Prompt 7 confirmou que era a escolha certa. */
+
   --white-pure: #ffffff;
 
-  /* Espaçamento — base 8px (⚠ proposta, docs/marca.md) */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 16px;
@@ -50,37 +38,20 @@
   --space-8: 96px;
   --space-9: 128px;
 
-  /* Movimento — docs/ui-web.md */
   --duration-fast: 150ms;
   --duration-base: 300ms;
   --duration-slow: 600ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* ------------------------------------------------------------------------
-   * Tema shadcn/ui — mapeamento semântico sobre os tokens acima, seguindo a
-   * regra 60/30/10 (docs/marca.md): primary = p1 = os 10% vibrantes, só em
-   * CTA/ação; o resto do tema mora nos neutros e nos roxos profundos.
-   *
-   * :root = claro (padrão) · .dark = escuro. Isto NÃO é dark mode de
-   * usuário — o site não tem toggle de tema. ".dark" é aplicado por seção
-   * na migração da LP (Prompt 4), espelhando o ritmo claro→escuro→
-   * escuro→claro do carrossel institucional (docs/ui-web.md, "Layout").
-   * Um <section className="dark"> vira o trecho escuro daquela seção, não
-   * a página inteira. Atenção no Prompt 6: Dialog/Select portalizam para
-   * fora da seção que os abriu, então herdam o tema do ancestral .dark
-   * mais próximo na árvore real do DOM — não necessariamente da seção
-   * visual ao redor do gatilho. Revisitar lá se precisar de um dialog
-   * "escuro" sobre seção clara.
-   * ---------------------------------------------------------------------- */
   --background: var(--c1);
   --foreground: var(--p5);
 
-  --primary: var(--p1); /* só CTA e ação — nosso 10% */
-  --primary-foreground: var(--white-pure); /* --w não fecha 4.5:1 sobre p1 — ver nota acima */
+  --primary: var(--p1);
+  --primary-foreground: var(--white-pure);
 
   --secondary: var(--p4);
-  --secondary-foreground: var(--w); /* docs/marca.md: fundo p4 exige texto branco/c1 */
+  --secondary-foreground: var(--w);
 
   --muted: var(--c2);
   --muted-foreground: var(--c8);
@@ -88,14 +59,13 @@
   --accent: var(--muted);
   --accent-foreground: var(--muted-foreground);
 
-  --popover: var(--c2); /* "fundo de blocos e cards" — docs/marca.md */
+  --popover: var(--c2);
   --popover-foreground: var(--p5);
 
   --border: var(--c3);
   --input: var(--c4);
-  --ring: var(--p1); /* foco visível — requisito de acessibilidade */
+  --ring: var(--p1);
 
-  /* Sem token de erro em docs/marca.md — mantém o vermelho padrão do shadcn. */
   --destructive: oklch(0.577 0.245 27.325);
 }
 
@@ -110,8 +80,7 @@
   --secondary-foreground: var(--w);
 
   --muted: var(--p4);
-  /* c8 (#595959) não fecha 4.5:1 sobre p4 (#410064) — troca por c6, mais
-     claro, pra manter WCAG AA no texto secundário sobre fundo escuro. */
+
   --muted-foreground: var(--c6);
 
   --accent: var(--muted);
@@ -127,10 +96,6 @@
   --destructive: oklch(0.704 0.191 22.216);
 }
 
-/* ==========================================================================
- * Ligação com o Tailwind — expõe os tokens acima como utilities
- * (bg-primary, text-foreground, rounded-md, font-display...).
- * ========================================================================== */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -149,20 +114,12 @@
   --color-ring: var(--ring);
   --color-destructive: var(--destructive);
 
-  /* Fontes self-hosted via next/font (ver src/app/layout.tsx). */
-  --font-sans: var(--font-body); /* interface e texto corrido = Poppins */
-  --font-heading: var(--font-display); /* títulos = Montserrat (ex.: DialogTitle) */
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
   --font-display: var(--font-display);
   --font-body: var(--font-body);
-  --font-mono: var(--font-mono); /* rótulo, tag, contador — nunca texto essencial */
+  --font-mono: var(--font-mono);
 
-  /* Raio — docs/ui-web.md. --radius é o valor semântico pedido (radius-md).
-     Os nomes de escala do Tailwind (sm/md/lg/xl) não batem 1:1 com os nomes
-     da marca (sm/md/lg/full); o que importa é o valor em px que cada
-     componente do shadcn usa de fato. Botão/input/select/accordion usam a
-     classe "lg" e precisam do valor de radius-md da marca (8px — "botões,
-     cards"); o Dialog usa "xl" e precisa do valor de radius-lg (16px —
-     "blocos grandes, mockups"). */
   --radius: 8px;
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -170,12 +127,6 @@
   --radius-xl: 16px;
   --radius-full: 999px;
 
-  /* Movimento decorativo — sempre combinado com motion-reduce:animate-none
-     no elemento (Tailwind já traz a variant de prefers-reduced-motion).
-     O herói usa uai-hero-in com animation-fill-mode "both": o estado
-     inicial (opacity 0) só existe enquanto a animação roda: com
-     motion-reduce:animate-none a animação some e o texto nasce direto no
-     opacity padrão (1) — sem JS, sem flash. */
   --animate-marquee: uai-marquee 34s linear infinite;
   --animate-pulse-soft: uai-pulse 2.4s ease-in-out infinite;
   --animate-blink: uai-blink 1.1s step-end infinite;
@@ -240,17 +191,15 @@
   html {
     @apply font-sans;
   }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+  }
 }
 
-/* ==========================================================================
- * Camadas decorativas — efeitos que não são utility 1:1 (mask, gradiente
- * radial multi-stop) ganham classe própria em vez de arbitrary value
- * gigante no JSX. Sempre var(--token), nunca hex.
- * ========================================================================== */
 @layer components {
-  /* Hero — grade que reage à posição do mouse (--mx/--my, atualizados por
-     HeroPointerGlow). Sem JS, cai no fallback 60%/40%: continua com uma
-     composição válida, só não acompanha o cursor. */
   .hero-grid {
     position: absolute;
     inset: 0;
@@ -266,8 +215,6 @@
     );
   }
 
-  /* Glow roxo — opacidade de pico em 18%, dentro do limite de ≤20% de
-     docs/ui-web.md (a versão original estava em 28%). */
   .hero-glow {
     position: absolute;
     inset: 0;
@@ -292,7 +239,6 @@
     );
   }
 
-  /* Orbe decorativo estático, canto superior direito — não segue o mouse. */
   .hero-orb {
     position: absolute;
     top: -20%;
@@ -308,10 +254,8 @@
     pointer-events: none;
   }
 
-  /* CTA final — gradiente linear 180°, p4→p5 (dentro da regra de
-     docs/ui-web.md: linear, 135–180°, só p5↔p4/#000). */
   .cta-gradient {
-    background: linear-gradient(180deg, var(--p4) 0%, var(--p5) 60%);
+    background: radial-gradient(120% 100% at 50% 0%, var(--p4) 0%, var(--p5) 60%);
   }
 
   .cta-scanlines {
@@ -325,12 +269,13 @@
     background-size: 100% 48px;
   }
 
-  /* Beam giratório na borda dos cards de case — "a luz na borda dos
-     cards" que foi pra manter. p1 como parada é intencional aqui: é
-     decoração de marca sobre um card, não texto nem ícone. */
   .case-card-beam {
     position: absolute;
-    inset: 0;
+    top: 50%;
+    left: 50%;
+    width: 190%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
     background: conic-gradient(
       from 0deg,
       transparent 0deg,

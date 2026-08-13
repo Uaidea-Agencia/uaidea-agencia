@@ -3,11 +3,12 @@ import { Reveal } from "@/components/ui/reveal";
 import { SectionLabel } from "@/components/ui/section-label";
 import { METHOD } from "@/content/home";
 
+import { MethodRecapButton } from "./method-recap-button";
 export function MethodSection() {
   return (
     <section id="metodo" className="bg-background text-foreground">
       <Container className="py-16 sm:py-24 lg:py-28">
-        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[340px_1fr]">
+        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))]">
           <Reveal className="lg:sticky lg:top-26">
             <SectionLabel tone="light" className="mb-8">
               {METHOD.label}
@@ -17,6 +18,8 @@ export function MethodSection() {
             </h2>
             <p className="max-w-[40ch] text-lg text-(--c9)">{METHOD.intro}</p>
           </Reveal>
+
+          <MethodRecapButton />
 
           <ol className="border-(--c3) border-t">
             {METHOD.steps.map((step, index) => (

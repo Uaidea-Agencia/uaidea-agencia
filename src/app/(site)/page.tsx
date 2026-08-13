@@ -7,9 +7,6 @@ import { MethodSection } from "@/components/sections/method-section";
 import { PositioningSection } from "@/components/sections/positioning-section";
 import { ServicesSection } from "@/components/sections/services-section";
 import { TechnologySection } from "@/components/sections/technology-section";
-
-// Ordem narrativa (docs/ui-web.md, "Layout"): claro → escuro → escuro →
-// claro → escuro → escuro, espelhando o carrossel institucional.
 export default function HomePage() {
   return (
     <>

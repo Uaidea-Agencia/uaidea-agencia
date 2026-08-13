@@ -47,6 +47,15 @@ Arquivos originais de marca (logos, manual em PDF): `docs/referencias/`
 - Ao propor mais de uma alternativa de layout ou copy, justifique a recomendação em 2–3 linhas.
 - Commits em pt-BR, no imperativo: `adiciona seção de serviços`.
 
+### Onde vivem as docs de marca/contexto
+
+`docs/empresa.md`, `docs/marca.md`, `docs/ui-web.md` e `docs/tom-de-voz.md` só existem aqui — dentro deste repositório, versionadas no GitHub junto com o código. Não há mais cópia paralela em Google Drive ou pasta local: aquele fluxo foi descontinuado a partir de 14/08/2026. Isso muda a forma de editar essas docs:
+
+- Qualquer atualização de posicionamento, decisão de marca ou padrão de UI é feita direto nos arquivos de `docs/`, neste repositório — nunca num documento externo pra "depois trazer pra cá".
+- Quando o código diverge do que a doc descreve (uma cor, um espaçamento, um componente que já resolveu um ⚠ de forma diferente da proposta), a doc é quem está desatualizada — corrija-a como parte do mesmo PR que mudou o comportamento, não depois.
+- `docs/marca.md` sem ⚠ continua sendo lei (regra 4 acima) — "documentar o que o código já faz" não é justificativa pra mudar cor, fonte, peso ou espaçamento sem aprovação. Isso vale só para os itens marcados com ⚠ e para `docs/ui-web.md` inteiro, que são padrão do repositório e podem ser realinhados quando a implementação e a doc destoam.
+- Os arquivos originais de marca (logos, manual em PDF) continuam em `docs/referencias/` — isso não muda; só o texto vivo das docs deixou de ter uma cópia fora do Git.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know

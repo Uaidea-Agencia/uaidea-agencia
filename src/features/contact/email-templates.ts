@@ -4,15 +4,6 @@ import { ROUTES } from "@/config/routes";
 import { SITE } from "@/config/site";
 
 import type { ContactInput } from "./schema";
-
-/**
- * Hex literal aqui é intencional, não um esquecimento da regra "sempre
- * via token" (CLAUDE.md regra 3): e-mail HTML não carrega o CSS do site
- * — a maioria dos clientes (Gmail incluído) ignora <style> com
- * var(--...) e strippa custom properties. Os valores abaixo são cópia
- * literal de docs/marca.md (--p1, --p4, --p5, --c1, --c9) e devem ser
- * mantidos em sincronia manual se a paleta mudar.
- */
 const COLOR = {
   p1: "#A600FF",
   p4: "#410064",
@@ -20,7 +11,6 @@ const COLOR = {
   c1: "#F7F7F7",
   c9: "#404040",
 };
-
 function escapeHtml(value: string): string {
   return value
     .replace(/&/g, "&amp;")
@@ -28,7 +18,6 @@ function escapeHtml(value: string): string {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 }
-
 function wrapEmailShell(bodyHtml: string): string {
   return `<!doctype html>
 <html lang="pt-BR">
@@ -42,21 +31,12 @@ function wrapEmailShell(bodyHtml: string): string {
   </body>
 </html>`;
 }
-
 function formatPhone(digits: string | undefined): string {
   if (!digits) return "—";
   return digits.length === 11
     ? `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`
     : `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
 }
-
-/**
- * Pra uaideamg@gmail.com — assunto com prefixo "[LEAD SITE]", corpo com
- * todos os campos, Reply-To no e-mail do lead (responder direto do
- * Gmail vai pro lead, não fica preso na própria caixa). Prioridade alta
- * é só sugestão ao cliente de e-mail — o filtro do Gmail (ver README) é
- * o que funciona de verdade.
- */
 export function buildLeadEmail(data: ContactInput): EmailMessage {
   const rows: [string, string][] = [
     ["Nome", data.nome],
@@ -65,21 +45,18 @@ export function buildLeadEmail(data: ContactInput): EmailMessage {
     ["Empresa", data.empresa ?? "—"],
     ["Serviço de interesse", data.servico],
   ];
-
   const rowsHtml = rows
     .map(
       ([label, value]) =>
         `<tr><td style="padding:6px 12px 6px 0;color:#707070;white-space:nowrap;">${escapeHtml(label)}</td><td style="padding:6px 0;font-weight:600;">${escapeHtml(value)}</td></tr>`,
     )
     .join("");
-
   const html = wrapEmailShell(`
     <h1 style="font-size:18px;margin:0 0 16px;">Novo lead pelo site</h1>
     <table style="border-collapse:collapse;font-size:14px;margin-bottom:20px;">${rowsHtml}</table>
     <p style="font-size:13px;color:#707070;margin:0 0 4px;">Mensagem</p>
     <p style="font-size:15px;line-height:1.6;white-space:pre-wrap;background:${COLOR.c1};border:1px solid #DEDEDE;border-radius:8px;padding:16px;">${escapeHtml(data.mensagem)}</p>
   `);
-
   const text = [
     "Novo lead pelo site",
     ...rows.map(([label, value]) => `${label}: ${value}`),
@@ -87,7 +64,6 @@ export function buildLeadEmail(data: ContactInput): EmailMessage {
     "Mensagem:",
     data.mensagem,
   ].join("\n");
-
   return {
     to: SITE.contact.email,
     subject: `[LEAD SITE] ${data.nome} — ${data.servico}`,
@@ -97,16 +73,8 @@ export function buildLeadEmail(data: ContactInput): EmailMessage {
     priority: "high",
   };
 }
-
-/**
- * Confirmação pro lead — identidade visual da marca, tom validado contra
- * docs/tom-de-voz.md (direto, sem clichê de agência). Sem headers de
- * prioridade: não controlamos a caixa do lead, e forçar prioridade em
- * e-mail transacional aumenta a chance de cair em spam.
- */
 export function buildConfirmationEmail(data: ContactInput): EmailMessage {
   const firstName = data.nome.trim().split(/\s+/)[0] ?? data.nome;
-
   const html = wrapEmailShell(`
     <h1 style="font-size:20px;margin:0 0 16px;color:${COLOR.p5};">Recebemos sua mensagem, ${escapeHtml(firstName)}.</h1>
     <p style="font-size:15px;line-height:1.6;margin:0 0 16px;">
@@ -120,7 +88,6 @@ export function buildConfirmationEmail(data: ContactInput): EmailMessage {
       <a href="${ROUTES.instagram}" style="color:${COLOR.p1};">${escapeHtml(SITE.contact.instagramHandle)}</a>.
     </p>
   `);
-
   const text = [
     `Recebemos sua mensagem, ${firstName}.`,
     "",
@@ -131,7 +98,6 @@ export function buildConfirmationEmail(data: ContactInput): EmailMessage {
     "",
     `Se for urgente, é só responder este e-mail ou chamar no Instagram ${SITE.contact.instagramHandle}.`,
   ].join("\n");
-
   return {
     to: data.email,
     subject: "Recebemos sua mensagem — UAIdea Agência",

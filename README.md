@@ -76,3 +76,25 @@ configurado uma vez:
 
 Dois minutos, feito uma vez, e todo lead do site chega marcado e rotulado — independente do
 que o cliente de e-mail decidir fazer com os headers de prioridade.
+
+### Alerta quando o envio falha de verdade
+
+Se `mailer.send` falhar fora do dry-run (senha de app errada, 2FA desativada, cota do Gmail
+estourada etc.), o visitante já vê um toast de erro e a sugestão de mandar por `mailto:` — mas
+isso depende de alguém notar e reenviar manualmente. A agência, sozinha, só saberia da falha
+olhando o log da Vercel, que ninguém fica acompanhando ao vivo. Por isso a Server Action
+também chama `alerter.notify` (`src/lib/ports/alerter.ts`) no `catch`, com os dados do lead e
+o erro.
+
+Implementação padrão: `src/lib/adapters/discord-alerter.ts`, via webhook do Discord — canal
+escolhido de propósito por não depender do Gmail (se o problema for o Gmail, um alerta por
+e-mail não ajudaria).
+
+1. No Discord, crie um canal (ou use um existente) só pra alertas do site.
+2. **Configurações do canal → Integrações → Webhooks → Novo Webhook.**
+3. Copie a "URL do Webhook" e cole em `DISCORD_WEBHOOK_URL` no `.env.local`.
+
+Sem essa variável definida, `lib/container.ts` usa `NoopAlerter`
+(`src/lib/adapters/noop-alerter.ts`) — nenhum aviso extra é disparado, só o `console.error`
+de sempre. Uma falha ao notificar (ex.: webhook inválido) também nunca derruba a resposta
+pro visitante — é logada à parte e ignorada.

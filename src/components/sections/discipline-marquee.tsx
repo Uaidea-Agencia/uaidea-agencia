@@ -1,5 +1,4 @@
 import { DISCIPLINES } from "@/content/home";
-
 function DisciplineGroup({ hidden = false }: { hidden?: boolean }) {
   return (
     <div
@@ -17,12 +16,10 @@ function DisciplineGroup({ hidden = false }: { hidden?: boolean }) {
     </div>
   );
 }
-
-/** Marquee de disciplinas — puramente decorativo, CSS-only. */
 export function DisciplineMarquee() {
   return (
     <div className="dark bg-background text-foreground border-border overflow-hidden border-y py-4.5">
-      <div className="animate-marquee motion-reduce:animate-none flex w-max">
+      <div className="animate-marquee flex w-max">
         <DisciplineGroup />
         <DisciplineGroup hidden />
       </div>

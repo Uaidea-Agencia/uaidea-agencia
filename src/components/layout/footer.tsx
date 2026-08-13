@@ -1,12 +1,10 @@
-import Link from "next/link";
-
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/layout/logo";
+import { Link } from "@/components/ui/link";
 import { FOOTER_NAV } from "@/config/nav";
 import { ROUTES } from "@/config/routes";
 import { SITE } from "@/config/site";
 import { FOOTER_CONTENT } from "@/content/home";
-
 export function Footer() {
   return (
     <footer className="dark text-foreground bg-(--c12)">
@@ -22,50 +20,50 @@ export function Footer() {
           </div>
 
           <div>
-            <h2 className="text-foreground mb-5 font-mono text-[11px] tracking-[0.14em] uppercase">
+            <h2 className="text-foreground mb-5 font-mono text-xs tracking-[0.14em] uppercase">
               {FOOTER_NAV.frentes.title}
             </h2>
             <ul className="flex flex-col gap-3">
               {FOOTER_NAV.frentes.links.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-muted-foreground hover:text-foreground focus-visible:ring-ring rounded-sm text-sm transition-colors outline-none focus-visible:ring-2"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h2 className="text-foreground mb-5 font-mono text-[11px] tracking-[0.14em] uppercase">
+            <h2 className="text-foreground mb-5 font-mono text-xs tracking-[0.14em] uppercase">
               {FOOTER_NAV.agencia.title}
             </h2>
             <ul className="flex flex-col gap-3">
               {FOOTER_NAV.agencia.links.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-muted-foreground hover:text-foreground focus-visible:ring-ring rounded-sm text-sm transition-colors outline-none focus-visible:ring-2"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h2 className="text-foreground mb-5 font-mono text-[11px] tracking-[0.14em] uppercase">
+            <h2 className="text-foreground mb-5 font-mono text-xs tracking-[0.14em] uppercase">
               Contato
             </h2>
             <ul className="flex flex-col gap-3 text-sm">
               <li>
                 <a
                   href={ROUTES.email}
-                  className="text-muted-foreground hover:text-foreground focus-visible:ring-ring rounded-sm transition-colors outline-none focus-visible:ring-2"
+                  className="text-muted-foreground hover:text-foreground focus-visible:ring-ring hover:border-primary w-fit rounded-sm border-b border-transparent transition-colors outline-none focus-visible:ring-2"
                 >
                   {SITE.contact.email}
                 </a>
@@ -73,7 +71,7 @@ export function Footer() {
               <li>
                 <a
                   href={ROUTES.instagram}
-                  className="text-muted-foreground hover:text-foreground focus-visible:ring-ring rounded-sm transition-colors outline-none focus-visible:ring-2"
+                  className="text-muted-foreground hover:text-foreground focus-visible:ring-ring hover:border-primary w-fit rounded-sm border-b border-transparent transition-colors outline-none focus-visible:ring-2"
                 >
                   {SITE.contact.instagramHandle}
                 </a>
@@ -84,9 +82,10 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="text-muted-foreground flex flex-wrap justify-between gap-4 pt-7 font-mono text-[11px] tracking-[0.08em]">
+        <div className="text-muted-foreground flex flex-wrap justify-between gap-4 pt-7 font-mono text-xs tracking-[0.08em]">
           <span>{FOOTER_CONTENT.pending.cnpj}</span>
-          <span>{FOOTER_CONTENT.copyright}</span>
+
+          <span>{`© ${new Date().getFullYear()} ${SITE.name}`}</span>
         </div>
       </Container>
     </footer>

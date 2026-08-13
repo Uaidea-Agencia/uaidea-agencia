@@ -1,16 +1,15 @@
-import Link from "next/link";
-
 import { Container } from "@/components/layout/container";
-import { ProjectCard } from "@/components/ui/project-card";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionLabel } from "@/components/ui/section-label";
 import { ROUTES } from "@/config/routes";
 import { CASES } from "@/content/home";
 import { projectRepository } from "@/lib/container";
 
+import { CasesRotator } from "./cases-rotator";
 export async function CasesSection() {
-  const projects = (await projectRepository.list({ destaque: true })).slice(0, 4);
-
+  const projects = await projectRepository.list({ destaque: true });
   return (
     <section id="cases" className="dark bg-background text-foreground">
       <Container className="py-16 sm:py-24 lg:py-28">
@@ -26,31 +25,34 @@ export async function CasesSection() {
           <p className="text-(--c6) max-w-[36ch] text-base">{CASES.desc}</p>
         </Reveal>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.slug} project={project} index={index} />
-          ))}
+        <div className="hidden min-[700px]:block">
+          <CasesRotator projects={projects} />
         </div>
 
+        <Reveal index={1} className="min-[700px]:hidden">
+          <Button
+            size="block"
+            nativeButton={false}
+            render={<Link href={ROUTES.projetos}>Ver todos os projetos →</Link>}
+          />
+        </Reveal>
+
         <Reveal
-          index={projects.length}
+          index={2}
           className="border-(--w)/12 bg-(--w)/12 mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-xl border sm:grid-cols-4"
         >
           {CASES.stats.map((stat) => (
             <div key={stat.label} className="bg-background px-7 py-9">
               <p className="text-(--base) mb-3 text-4xl font-extrabold">{stat.value}</p>
-              <p className="text-(--c6) font-mono text-[11px] tracking-[0.14em] uppercase">
+              <p className="text-(--c6) font-mono text-xs tracking-[0.14em] uppercase">
                 {stat.label}
               </p>
             </div>
           ))}
         </Reveal>
 
-        <Reveal index={projects.length + 1} className="mt-10 text-center">
-          <Link
-            href={ROUTES.projetos}
-            className="text-foreground hover:text-primary focus-visible:ring-ring rounded-sm text-base font-semibold tracking-[0.02em] underline decoration-1 underline-offset-4 outline-none focus-visible:ring-2"
-          >
+        <Reveal index={3} className="mt-10 hidden text-center min-[700px]:block">
+          <Link href={ROUTES.projetos} variant="outline">
             Ver todos os projetos →
           </Link>
         </Reveal>

@@ -9,11 +9,5 @@
   "resultado": "[ PENDENTE ]",
   "destaque": true,
   "ordem": 1,
-  "midia": [
-    {
-      "type": "image",
-      "src": "/projects/projeto-exemplo/capa.jpg",
-      "alt": "Imagem placeholder — projeto de exemplo, sem case real ainda"
-    }
-  ]
+  "midia": []
 }

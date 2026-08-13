@@ -2,13 +2,11 @@ import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionLabel } from "@/components/ui/section-label";
 import { TECHNOLOGY } from "@/content/home";
-
 const LINE_KIND_CLASS = {
   prompt: "text-primary",
   dim: "text-(--c6)",
   ok: "text-foreground",
 } as const;
-
 export function TechnologySection() {
   return (
     <section id="tecnologia" className="dark bg-(--p4) text-foreground relative overflow-hidden">
@@ -26,13 +24,13 @@ export function TechnologySection() {
 
         <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
           <Reveal index={1}>
-            <h2 className="text-foreground mb-7 max-w-[16ch] text-[clamp(1.875rem,5vw,3.5rem)] leading-[1.05] font-bold tracking-[-0.02em] uppercase">
+            <h2 className="text-foreground mb-7 max-w-[16ch] text-[clamp(1.5rem,5vw,3.5rem)] leading-[1.05] font-bold tracking-[-0.02em] uppercase">
               {TECHNOLOGY.heading}
             </h2>
-            <p className="mb-6 max-w-[52ch] text-lg text-balance text-(--c2)/85">
+            <p className="mb-6 max-w-[52ch] text-base text-balance text-(--c2)/85 sm:text-lg">
               {TECHNOLOGY.body}
             </p>
-            <p className="max-w-[46ch] font-mono text-base leading-relaxed text-(--base)">
+            <p className="max-w-[46ch] font-mono text-sm leading-relaxed text-(--base) sm:text-base">
               {TECHNOLOGY.tagline}
             </p>
           </Reveal>
@@ -42,7 +40,7 @@ export function TechnologySection() {
               <span aria-hidden="true" className="bg-(--p3) size-2.5 rounded-full" />
               <span aria-hidden="true" className="bg-(--p4) size-2.5 rounded-full" />
               <span aria-hidden="true" className="bg-(--p4) size-2.5 rounded-full" />
-              <span className="ml-2 font-mono text-[11px] tracking-widest text-(--c6)">
+              <span className="ml-2 font-mono text-xs tracking-widest text-(--c6)">
                 {TECHNOLOGY.terminal.label}
               </span>
             </div>
@@ -56,7 +54,7 @@ export function TechnologySection() {
                   {line.cursor && (
                     <span
                       aria-hidden="true"
-                      className="bg-primary animate-blink motion-reduce:animate-none ml-1.5 inline-block h-3.5 w-2 align-[-2px]"
+                      className="bg-primary animate-blink ml-1.5 inline-block h-3.75 w-2 align-[-2px]"
                     />
                   )}
                 </div>
@@ -72,7 +70,7 @@ export function TechnologySection() {
           {TECHNOLOGY.tiles.map((tile) => (
             <div
               key={tile.name}
-              className="hover:bg-(--p5) bg-(--p4) px-5.5 py-6.5 transition-colors"
+              className="hover:bg-(--p5) bg-(--p4) px-5.5 py-6.5 transition-colors [&:nth-child(odd):last-child]:col-span-2 [&:nth-child(odd):last-child]:text-center sm:[&:nth-child(odd):last-child]:col-span-1 sm:[&:nth-child(odd):last-child]:text-left"
             >
               <p className="text-foreground mb-2 font-mono text-sm tracking-[0.12em]">
                 {tile.name}

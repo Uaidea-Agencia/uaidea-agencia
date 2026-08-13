@@ -1,18 +1,8 @@
 import { ROUTES } from "@/config/routes";
-
-/**
- * Copy da home, centralizada — revisão de texto não deve exigir caça ao
- * JSX. Fonte: LP aprovada (Claude Design), com os ajustes combinados na
- * auditoria (Prompt 1): nomes de serviço alinhados a docs/empresa.md,
- * números do terminal da seção Tecnologia suavizados pra não parecer dado
- * de cliente real (nenhum client existe ainda — regra 9 do CLAUDE.md).
- */
-
 export interface Cta {
   label: string;
   href: string;
 }
-
 export const HERO = {
   eyebrow: "Marketing · Design · Tecnologia",
   headlineLines: ["Marketing para", "quem mede o"],
@@ -22,7 +12,6 @@ export const HERO = {
   primaryCta: { label: "Quero um diagnóstico", href: ROUTES.contato } satisfies Cta,
   secondaryCta: { label: "Ver como trabalhamos →", href: ROUTES.servicos } satisfies Cta,
 };
-
 export const DISCIPLINES = [
   "Estratégia",
   "Design",
@@ -31,7 +20,6 @@ export const DISCIPLINES = [
   "IA e automação",
   "Dados",
 ];
-
 export const POSITIONING = {
   label: "01 — Posicionamento",
   marketRow: {
@@ -74,13 +62,11 @@ export const POSITIONING = {
     },
   },
 };
-
 export interface ServiceItem {
   idx: string;
   title: string;
   desc: string;
 }
-
 export const SERVICES = {
   label: "02 — O que fazemos",
   heading: "Cinco frentes, um plano só.",
@@ -114,18 +100,15 @@ export const SERVICES = {
     },
   ] satisfies ServiceItem[],
 };
-
 export interface TerminalLine {
   text: string;
   kind: "prompt" | "dim" | "ok";
   cursor?: boolean;
 }
-
 export interface TechTile {
   name: string;
   desc: string;
 }
-
 export const TECHNOLOGY = {
   label: "03 — Tecnologia",
   heading: "O mesmo marketing, com uma camada de máquina por cima.",
@@ -133,8 +116,6 @@ export const TECHNOLOGY = {
   tagline: "human creativity × machine intelligence",
   terminal: {
     label: "uaidea — stack",
-    // Suaviza os números fabricados da versão original (41h/mês, 3 etapas)
-    // pra não parecer dado de cliente real — nenhum client existe ainda.
     note: "Exemplo ilustrativo — não é case real",
     lines: [
       { kind: "prompt", text: "uaidea diagnóstico --cliente" },
@@ -157,14 +138,12 @@ export const TECHNOLOGY = {
     { name: "Desenvolvimento", desc: "Integração sob medida" },
   ] satisfies TechTile[],
 };
-
 export interface MethodStep {
   num: string;
   title: string;
   desc: string;
   active?: boolean;
 }
-
 export const METHOD = {
   label: "04 — Método",
   heading: "Cinco etapas. Nenhuma pulada.",
@@ -199,10 +178,6 @@ export const METHOD = {
     },
   ] satisfies MethodStep[],
 };
-
-// Os projetos em si (client, problema, solução, resultado...) vêm do
-// portfólio real agora — ver content/projects/ e lib/container.ts
-// (Prompt 5). Isto aqui é só a moldura da seção na home.
 export const CASES = {
   label: "05 — Trabalhos",
   heading: "Case só entra aqui com número real.",
@@ -214,12 +189,10 @@ export const CASES = {
     { value: "[ — ]", label: "Campanhas" },
   ],
 };
-
 export interface DifferentiatorItem {
   title: string;
   desc: string;
 }
-
 export const DIFFERENTIATORS = {
   label: "06 — Diferencial",
   heading: "Não somos só uma agência.",
@@ -250,17 +223,14 @@ export const DIFFERENTIATORS = {
     },
   ] satisfies DifferentiatorItem[],
 };
-
 export const CONTACT = {
   label: "07 — Vamos conversar",
   heading: "Seu problema não é falta de post.",
   body: "Manda o contexto do seu negócio. A gente devolve um diagnóstico com o que faríamos primeiro — e por quê. Sem custo e sem apresentação de 40 slides.",
-  // CTA continua mailto até o Prompt 6 (diálogo com formulário).
   primaryCta: { label: "Falar com a UAIdea →", href: ROUTES.email } satisfies Cta,
   instagram: { label: "@uaidea.agencia", href: ROUTES.instagram } satisfies Cta,
   emailDisplay: "uaideamg@gmail.com",
 };
-
 export const FOOTER_CONTENT = {
   brandLine:
     "Marketing, design e tecnologia. Estratégia antes de execução, número antes de opinião.",
@@ -269,5 +239,4 @@ export const FOOTER_CONTENT = {
     address: "Endereço [ PENDENTE ]",
     cnpj: "CNPJ [ PENDENTE ]",
   },
-  copyright: "© 2026 UAIdea Agência",
 };

@@ -1,18 +1,14 @@
 import { cn } from "@/lib/utils";
-
 const TONE_CLASSES = {
   light: "text-(--p3)",
   dark: "text-primary",
   mid: "text-(--w) opacity-70",
 } as const;
-
 interface SectionLabelProps {
   children: string;
   tone: keyof typeof TONE_CLASSES;
   className?: string;
 }
-
-/** Rótulo numerado ("01 — Posicionamento") — papel "técnico/dado" da mono. */
 export function SectionLabel({ children, tone, className }: SectionLabelProps) {
   return (
     <p

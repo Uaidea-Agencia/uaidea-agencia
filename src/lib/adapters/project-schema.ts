@@ -1,11 +1,4 @@
 import { z } from "zod";
-
-/**
- * Valida o arquivo JSON de content/projects/. Só o que o autor do
- * conteúdo escreve — blurDataURL de imagem é gerado depois, na leitura
- * (ver file-project-repository.ts), nunca vem do arquivo.
- */
-
 const imageSchema = z.object({
   type: z.literal("image"),
   src: z
@@ -16,7 +9,6 @@ const imageSchema = z.object({
     ),
   alt: z.string().min(1, "toda imagem precisa de alt em pt-BR"),
 });
-
 const videoSchema = z.object({
   type: z.literal("video"),
   provider: z.enum(["youtube", "vimeo"]),
@@ -24,9 +16,7 @@ const videoSchema = z.object({
   title: z.string().min(1),
   thumbnail: z.string().optional(),
 });
-
 const mediaSchema = z.discriminatedUnion("type", [imageSchema, videoSchema]);
-
 export const projectFileSchema = z.object({
   slug: z
     .string()
@@ -41,12 +31,9 @@ export const projectFileSchema = z.object({
   resumo: z.string().min(1),
   problema: z.string().min(1),
   solucao: z.string().min(1),
-  // Livre e opcional — nunca uma métrica inventada (regra 9, CLAUDE.md).
-  // Use "[ PENDENTE ]" enquanto não houver autorização e dado auditável.
   resultado: z.string().min(1).optional(),
   destaque: z.boolean().default(false),
   ordem: z.number().int(),
   midia: z.array(mediaSchema).default([]),
 });
-
 export type ProjectFile = z.infer<typeof projectFileSchema>;
