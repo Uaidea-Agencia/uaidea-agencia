@@ -1,0 +1,19 @@
+{
+  "slug": "projeto-exemplo",
+  "cliente": "[ cliente ]",
+  "categoria": "Branding / Web",
+  "ano": 2026,
+  "resumo": "[ PENDENTE ]",
+  "problema": "[ PENDENTE ]",
+  "solucao": "[ PENDENTE ]",
+  "resultado": "[ PENDENTE ]",
+  "destaque": true,
+  "ordem": 1,
+  "midia": [
+    {
+      "type": "image",
+      "src": "/projects/projeto-exemplo/capa.jpg",
+      "alt": "Imagem placeholder — projeto de exemplo, sem case real ainda"
+    }
+  ]
+}
