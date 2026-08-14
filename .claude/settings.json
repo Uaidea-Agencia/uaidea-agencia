@@ -23,6 +23,7 @@
     "obsidian@obsidian-skills": true,
     "claude-mem@thedotmack": true,
     "ponytail@ponytail": true,
-    "figma@claude-plugins-official": true
+    "figma@claude-plugins-official": true,
+    "vercel@claude-plugins-official": true
   }
 }
