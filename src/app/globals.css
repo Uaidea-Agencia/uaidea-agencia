@@ -200,6 +200,18 @@
 }
 
 @layer components {
+  /* Some por padrão; só aparece antes da hidratação se o script em
+     intro-boot-script.tsx marcar `<html data-intro="pending">` — ver
+     comentário lá pra entender por que essa decisão não pode viver só em
+     estado do React. SiteIntro assume a partir daí via motion/react. */
+  .site-intro {
+    display: none;
+  }
+
+  html[data-intro="pending"] .site-intro {
+    display: flex;
+  }
+
   .hero-grid {
     position: absolute;
     inset: 0;

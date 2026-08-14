@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@/components/ui/link";
 import { HERO } from "@/content/home";
 
+import { HeroFloatingTags } from "./hero-floating-tags";
 import { HeroPointerGlow } from "./hero-pointer-glow";
 const HEADLINE_LINE_COUNT = HERO.headlineLines.length + 2;
 export function Hero() {
@@ -14,6 +15,7 @@ export function Hero() {
       <div aria-hidden="true" className="hero-glow" />
       <div aria-hidden="true" className="hero-glow-soft" />
       <div aria-hidden="true" className="hero-orb" />
+      <HeroFloatingTags />
 
       <Container className="relative pt-[clamp(4rem,8vw,6rem)] pb-24">
         <div

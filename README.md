@@ -98,3 +98,19 @@ Sem essa variável definida, `lib/container.ts` usa `NoopAlerter`
 (`src/lib/adapters/noop-alerter.ts`) — nenhum aviso extra é disparado, só o `console.error`
 de sempre. Uma falha ao notificar (ex.: webhook inválido) também nunca derruba a resposta
 pro visitante — é logada à parte e ignorada.
+
+### Filtro de linguagem imprópria
+
+Qualquer pessoa pode preencher o formulário e mandar e-mail em nome de um visitante pra
+`uaideamg@gmail.com` — os campos de texto livre (nome, empresa, mensagem) passam por uma
+triagem de palavrão antes do envio (`src/features/contact/profanity.ts`). Se algum campo for
+sinalizado: o visitante vê um erro pedindo pra revisar o texto (nada é enviado) e a agência
+recebe um alerta no Discord, mesmo canal usado pra falha de e-mail.
+
+Usa a lib [`obscenity`](https://github.com/jo3-l/obscenity), que casa palavra com fronteira
+(`|palavra|`) — não substring solta — pra não marcar "tráfego" ou "institucional" como
+palavrão. A lista de termos em português é curada à mão dentro do próprio arquivo; pra
+adicionar ou remover uma palavra, edite o array `PT_BR_TERMS` (ou `EN_TERMS`, pro inglês) ali.
+Termo ambíguo com uso comum e inofensivo em pt-BR (ex.: "rola", "pinto", "burro") foi deixado
+de fora de propósito — bloquear um lead de verdade é pior do que deixar passar um palavrão
+ocasional pro Discord.
