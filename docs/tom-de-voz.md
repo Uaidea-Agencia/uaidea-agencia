@@ -30,6 +30,7 @@ Toda seção longa segue o mesmo arco já validado:
 - **Parágrafo:** 2–3 linhas. Se passar disso, quebre.
 - **Números:** sempre concretos ou ausentes. Nunca "centenas de clientes satisfeitos".
 - **CTA:** verbo no infinitivo ou imperativo + benefício. `Falar com a gente` > `Saiba mais`.
+- **Evite negativa quando dá pra afirmar.** "Não X, e sim Y" e cadeias como "não isso, não aquilo" soam sintéticas — é o tipo de frase que entrega que ninguém humano escreveu aquilo. Prefira dizer o que a UAIdea faz, não o que ela deixa de fazer: "Muitas agências perguntam quantos posts você quer. A gente pergunta de onde vem seu faturamento" em vez de "A gente não começa perguntando quantos posts você quer". Exceção: pergunta de objeção ligada a retorno financeiro pode usar negativa, porque aí a negativa é o gancho — `Os seus funcionários não conseguem mais te dar retorno?`.
 
 ## Vocabulário
 
@@ -74,7 +75,7 @@ Os exemplos acima são didáticos. Os abaixo já passaram pelo filtro e estão n
 - **Gancho + diagnóstico (herói):** "Marketing para quem mede o **resultado**, não o alcance." — verbo forte, contraste direto, sem anglicismo.
 - **Sintomas, paralelismo rígido (posicionamento, coluna "o jeito comum"):** "Entrega tarefa e mede entrega. / Criativo bonito, oferta indefinida. / Relatório de alcance no fim do mês. / Site feito por um, tráfego por outro. / Tecnologia terceirizada, dados perdidos." — mesma classe gramatical, mesmo tamanho aproximado, sem marcador.
 - **Elevação (diferencial):** "Um post nunca é o objetivo final. É meio, e às vezes nem isso." — tira a conversa do tático, reforça a tese da marca.
-- **CTA que força escolha (seção de contato):** "Seu problema não é falta de post." seguido de "Falar com a UAIdea →" — pergunta/afirmação de gancho, benefício explícito, verbo no infinitivo no botão.
+- **CTA que força escolha (seção de contato):** "Seu problema não é falta de post." seguido de "Falar com a UAIdea →" — pergunta/afirmação de gancho, benefício explícito, verbo no infinitivo no botão. Fica como a exceção deliberada à regra de copy afirmativa abaixo: aqui a negativa é o próprio gancho de diagnóstico, não uma cadeia "não isso, não aquilo".
 - **Número ausente tratado com honestidade (cases):** `stats` inteiro em `[ — ]` até existir dado real e autorizado — nunca "+100 clientes atendidos" de enchimento.
 
 Ao escrever copy nova, teste contra este bloco antes de testar contra a lista de exemplos hipotéticos: se o tom destoar do que já está publicado, o problema geralmente está na copy nova, não na referência.

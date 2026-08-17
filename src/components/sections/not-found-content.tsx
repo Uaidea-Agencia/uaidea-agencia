@@ -17,11 +17,11 @@ export function NotFoundContent() {
           Erro 404 — rota não encontrada
         </p>
         <h1 className="mb-6 max-w-[18ch] text-balance text-[clamp(2.25rem,6vw,4.5rem)] leading-[1.05] font-extrabold tracking-[-0.03em] uppercase">
-          Essa página não tinha um plano.
+          Essa página ficou sem plano.
         </h1>
         <p className="text-muted-foreground mb-10 max-w-[52ch] text-lg text-balance">
-          O link que você seguiu não existe, mudou de endereço ou nunca chegou a ser publicado. A
-          gente também não recomenda seguir rota sem estratégia.
+          O link que você seguiu mudou de endereço, ficou desatualizado ou ainda está a caminho.
+          Aqui a gente também gosta de seguir rota com estratégia.
         </p>
         <div className="flex flex-wrap items-center gap-7">
           <Button

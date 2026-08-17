@@ -8,7 +8,7 @@ export const HERO = {
   headlineLines: ["Marketing para", "quem mede o"],
   headlineAccent: "resultado,",
   headlineSub: "não o alcance.",
-  body: "Estratégia, design e tecnologia trabalhando na mesma mesa. A gente entra pelo negócio, não pela pauta do mês. Enquanto o número não muda, o trabalho não terminou.",
+  body: "Estratégia, design e tecnologia trabalhando na mesma mesa. A gente entra pelo negócio — a pauta do mês vem depois. O trabalho segue até o número mudar.",
   primaryCta: { label: "Quero um diagnóstico", href: ROUTES.contato } satisfies Cta,
   secondaryCta: { label: "Ver como trabalhamos →", href: ROUTES.servicos } satisfies Cta,
 };
@@ -35,7 +35,7 @@ export const POSITIONING = {
   answer: {
     tag: "A UAIdea",
     paragraphs: [
-      "A gente não começa perguntando quantos posts você quer por mês. Começa perguntando de onde vem seu faturamento, quanto custa um cliente e o que trava o próximo degrau.",
+      "Muitas agências perguntam quantos posts você quer por mês. A gente pergunta de onde vem seu faturamento, quanto custa um cliente e o que trava o próximo degrau.",
       "Só depois disso existe campanha, site, criativo ou automação. Execução sem essa conversa é ruído caro.",
     ],
   },
@@ -55,7 +55,7 @@ export const POSITIONING = {
       items: [
         "Define o número antes de definir a peça.",
         "Oferta primeiro, criativo depois.",
-        "Leitura de funil, não de vaidade.",
+        "Leitura de funil, resultado antes de vaidade.",
         "Página, campanha e medição no mesmo time.",
         "Automação e dado dentro da operação.",
       ],
@@ -116,7 +116,7 @@ export const TECHNOLOGY = {
   tagline: "human creativity × machine intelligence",
   terminal: {
     label: "uaidea — stack",
-    note: "Exemplo ilustrativo — não é case real",
+    note: "Exemplo ilustrativo — cenário fictício",
     lines: [
       { kind: "prompt", text: "uaidea diagnóstico --cliente" },
       { kind: "dim", text: "→ lendo funil, verba e histórico…" },
@@ -146,7 +146,7 @@ export interface MethodStep {
 }
 export const METHOD = {
   label: "04 — Método",
-  heading: "Cinco etapas. Nenhuma pulada.",
+  heading: "Nossos cinco pilares.",
   intro:
     "A ordem importa mais que a velocidade. Quase todo trabalho que dá errado pulou uma das duas primeiras.",
   steps: [
@@ -158,7 +158,7 @@ export const METHOD = {
     {
       num: "02",
       title: "Pensar",
-      desc: "Posicionamento, oferta e prioridade. O que atacar primeiro e, principalmente, o que não fazer agora.",
+      desc: "Posicionamento, oferta e prioridade. O que atacar primeiro e o que fica para depois.",
     },
     {
       num: "03",
@@ -168,7 +168,7 @@ export const METHOD = {
     {
       num: "04",
       title: "Construir",
-      desc: "Site, sistema, automação e medição. Sem isso, não existe leitura confiável do que aconteceu.",
+      desc: "Site, sistema, automação e medição — a base de uma leitura confiável do que aconteceu.",
     },
     {
       num: "05",
@@ -195,11 +195,11 @@ export interface DifferentiatorItem {
 }
 export const DIFFERENTIATORS = {
   label: "06 — Diferencial",
-  heading: "Não somos só uma agência.",
+  heading: "Mais que agência.",
   items: [
     {
       title: "Estratégia antes da execução",
-      desc: "Proposta que começa com peça e prazo é orçamento, não plano.",
+      desc: "Proposta que começa com peça e prazo é só orçamento.",
     },
     {
       title: "Tecnologia dentro da operação",
@@ -207,15 +207,15 @@ export const DIFFERENTIATORS = {
     },
     {
       title: "Design como ferramenta de negócio",
-      desc: "Estética que não sustenta argumento é decoração cara.",
+      desc: "Estética sem argumento é decoração cara.",
     },
     {
       title: "Dado para decidir",
-      desc: "Opinião entra na conversa depois do número, nunca antes.",
+      desc: "Opinião entra na conversa só depois do número.",
     },
     {
       title: "IA para acelerar",
-      desc: "Ferramenta que devolve horas ao time, não que substitui critério.",
+      desc: "Ferramenta que devolve horas ao time. Critério continua humano.",
     },
     {
       title: "Resultado para crescer",

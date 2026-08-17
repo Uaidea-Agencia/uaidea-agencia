@@ -10,7 +10,7 @@ import { projectRepository } from "@/lib/container";
 export const metadata: Metadata = {
   title: `Projetos — ${SITE.name}`,
   description:
-    "Trabalhos da UAIdea Agência — cliente, problema, solução e resultado, com número real ou [ PENDENTE ] enquanto não houver autorização.",
+    "Trabalhos da UAIdea Agência — cliente, problema, solução e resultado, com número real ou [ PENDENTE ] até a autorização chegar.",
 };
 export default async function ProjetosPage() {
   const projects = await projectRepository.list();
