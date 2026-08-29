@@ -38,6 +38,11 @@
   --space-8: 96px;
   --space-9: 128px;
 
+  /* Fallback antes do header medir a própria altura via ResizeObserver
+     (header.tsx) — evita que o link de âncora role para trás do header
+     sticky antes da primeira medição. */
+  --header-height: 77px;
+
   --duration-fast: 150ms;
   --duration-base: 300ms;
   --duration-slow: 600ms;
@@ -190,6 +195,12 @@
   }
   html {
     @apply font-sans;
+    /* Header é sticky (z-60) e fica por cima do topo de qualquer seção após
+       um scroll de âncora (#servicos etc.). Sem isso o Next pula elementos
+       sticky/fixed ao calcular o alvo do scroll e o conteúdo aterrissa por
+       baixo do header. Ver node_modules/next/dist/docs/01-app/03-api-reference/02-components/link.md
+       ("Scroll offset with sticky headers"). */
+    scroll-padding-top: var(--header-height);
   }
 
   h1,

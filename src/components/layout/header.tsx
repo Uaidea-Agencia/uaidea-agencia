@@ -1,7 +1,7 @@
 "use client";
 
 import { X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/layout/logo";
@@ -18,9 +18,28 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const activeId = useActiveSection(SECTION_IDS);
   const reduceMotion = useReducedMotion();
+  const headerRef = useRef<HTMLElement>(null);
   function handleLogoClick() {
     window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
   }
+  // Mantém `--header-height` (globals.css, usada em `scroll-padding-top`)
+  // sincronizada com a altura real do header sticky, para que o scroll de
+  // âncora (#servicos etc.) nunca aterrisse por baixo dele.
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) {
+      return;
+    }
+    const updateHeight = () => {
+      document.documentElement.style.setProperty("--header-height", `${header.offsetHeight}px`);
+    };
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(header);
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
   useEffect(() => {
     if (!isMenuOpen) {
       return;
@@ -45,7 +64,10 @@ export function Header() {
   }, []);
   return (
     <>
-      <header className="dark border-border bg-background/82 text-foreground sticky top-0 z-60 border-b backdrop-blur-md">
+      <header
+        ref={headerRef}
+        className="dark border-border bg-background/82 text-foreground sticky top-0 z-60 border-b backdrop-blur-md"
+      >
         <Container className="flex flex-wrap items-center justify-between gap-4 py-4">
           <Link href={ROUTES.home} onClick={handleLogoClick} className="-m-2 flex p-2">
             <Logo width={128} priority />
