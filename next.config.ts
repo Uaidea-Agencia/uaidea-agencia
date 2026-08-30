@@ -55,6 +55,12 @@ const nextConfig: NextConfig = {
   // Não anunciar a versão do Next em todo response.
   poweredByHeader: false,
 
+  // Nodemailer usa APIs de Node (net/tls/dns, require dinâmico de config de
+  // serviço) que não sobrevivem bem ao bundle de Server Action da Vercel —
+  // "funciona em dev, falha no deploy". Externalizar deixa o `require`
+  // nativo cuidar dele. Recomendação da doc do Next pra dependência assim.
+  serverExternalPackages: ["nodemailer"],
+
   images: {
     // Thumbnails de vídeo do portfólio (VideoFacade) — YouTube/Vimeo,
     // nunca o vídeo em si (docs de mídia do Prompt 5).
