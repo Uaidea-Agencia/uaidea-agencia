@@ -30,7 +30,12 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 import { submitContactAction } from "../actions";
 import { formatBRPhone } from "../phone-mask";
-import { contactSchema, SERVICE_OPTIONS, type ContactFormValues } from "../schema";
+import {
+  CONSENT_STATEMENT,
+  contactSchema,
+  SERVICE_OPTIONS,
+  type ContactFormValues,
+} from "../schema";
 import { CONTACT_IDLE_STATE } from "../types";
 
 const fieldsContainerVariants: Variants = {
@@ -280,7 +285,7 @@ export function ContactDialog({ label, mailtoHref }: ContactDialogProps) {
                         className="mt-0.5"
                       />
                       <FieldLabel htmlFor="consentimento" className="text-sm font-normal">
-                        Aceito que a UAIdea entre em contato comigo pra responder esta mensagem.
+                        {CONSENT_STATEMENT}
                       </FieldLabel>
                     </div>
                     <FieldError errors={[form.formState.errors.consentimento]} />

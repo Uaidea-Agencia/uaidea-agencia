@@ -17,11 +17,18 @@ npm run dev
 
 ## Formulário de contato
 
-O diálogo "Falar com a UAIdea" (`src/features/contact/`) envia dois e-mails por Nodemailer
-sobre SMTP do Gmail: um pra agência (o lead) e uma confirmação pro visitante. A implementação
-concreta fica em `src/lib/adapters/gmail-mailer.ts`, resolvida via `src/lib/container.ts` —
-trocar por outro provedor (Resend, SES) é implementar `Mailer` de novo e mudar uma linha lá,
-não reescrever a Server Action.
+O diálogo "Falar com a UAIdea" (`src/features/contact/`) envia três e-mails por Nodemailer
+sobre SMTP do Gmail: um pra agência (o lead), uma confirmação pro visitante e o comprovante
+de consentimento pro visitante (registro do aceite da caixinha de contato, para fins de LGPD).
+Os dois primeiros são o caminho crítico — se falharem, o visitante vê erro; o comprovante é
+"melhor esforço": se só ele falhar, o envio ainda conta como sucesso e a agência recebe um
+alerta pra reenviar à mão. A implementação concreta fica em `src/lib/adapters/gmail-mailer.ts`,
+resolvida via `src/lib/container.ts` — trocar por outro provedor (Resend, SES) é implementar
+`Mailer` de novo e mudar uma linha lá, não reescrever a Server Action.
+
+O comprovante cita dados institucionais que ainda não existem (CNPJ, endereço, encarregado/DPO,
+política de privacidade) como `[ PENDENTE ]` visível — quando esses itens forem definidos em
+`docs/empresa.md`, atualizar `buildConsentReceiptEmail` em `src/features/contact/email-templates.ts`.
 
 ### Testando localmente sem enviar e-mail de verdade
 
@@ -143,7 +150,7 @@ Camadas em ordem, da mais barata pra mais cara:
 1. **Honeypot** + **tempo mínimo de preenchimento** (3 s) — bot ingênuo cai fora sem erro.
 2. **Rajada:** 3 envios / minuto por IP.
 3. **Anti-duplicata:** mesmo conteúdo (IP + e-mail + mensagem) em até 5 min é tratado como
-   sucesso e não reenvia os dois e-mails — cobre duplo-clique, retry do navegador e replay
+   sucesso e não reenvia os e-mails — cobre duplo-clique, retry do navegador e replay
    ingênuo de um POST (`src/features/contact/recent-submissions.ts`).
 4. **Teto sustentado:** 6 envios / hora e 15 / dia por IP — barra quem fica remandando o
    formulário o dia todo sem cair no limite de 1 minuto, e segura a cota do Gmail.

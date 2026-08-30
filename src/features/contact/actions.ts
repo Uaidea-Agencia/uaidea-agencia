@@ -8,7 +8,11 @@ import { isRateLimited, rateLimit } from "@/lib/rate-limit";
 
 import type { ContactActionState } from "./types";
 
-import { buildConfirmationEmail, buildLeadEmail } from "./email-templates";
+import {
+  buildConfirmationEmail,
+  buildConsentReceiptEmail,
+  buildLeadEmail,
+} from "./email-templates";
 import { findProfaneField } from "./profanity";
 import { isRecentDuplicate, rememberSubmission } from "./recent-submissions";
 import { contactSchema, type ContactInput } from "./schema";
@@ -209,5 +213,27 @@ export async function submitContactAction(
       message: `Não deu pra enviar agora pelo site. Manda direto pra ${SITE.contact.email}.`,
     };
   }
+
+  // Comprovante de consentimento (LGPD) pro e-mail do visitante — melhor
+  // esforço. O lead e a confirmação já saíram e a digital anti-duplicata já
+  // foi gravada; se só o comprovante falhar, avisa a agência pra reenviar à
+  // mão, sem transformar um envio que deu certo em erro pro visitante.
+  try {
+    await mailer.send(buildConsentReceiptEmail(data, { acceptedAt: new Date(), ip, userAgent }));
+  } catch (error) {
+    console.error("[contact] falha ao enviar comprovante de consentimento", error);
+    await notifyBestEffort("comprovante de consentimento", {
+      title: "Falha ao enviar comprovante de consentimento do formulário",
+      details: {
+        Nome: data.nome,
+        "E-mail": data.email,
+        Serviço: data.servico,
+        Erro: error instanceof Error ? error.message : String(error),
+        IP: ip,
+        Localização: location,
+      },
+    });
+  }
+
   return { status: "success" };
 }

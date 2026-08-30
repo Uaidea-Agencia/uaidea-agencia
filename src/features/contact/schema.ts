@@ -1,4 +1,12 @@
 import { z } from "zod";
+/**
+ * Texto exato do aceite mostrado na caixinha de consentimento. Fica aqui pra
+ * o rótulo do formulário (`contact-dialog.tsx`) e o comprovante enviado por
+ * e-mail (`email-templates.ts`) citarem a mesma frase — o comprovante precisa
+ * registrar, palavra por palavra, o que a pessoa marcou.
+ */
+export const CONSENT_STATEMENT =
+  "Aceito que a UAIdea entre em contato comigo pra responder esta mensagem.";
 export const SERVICE_OPTIONS = [
   "Tráfego pago",
   "Design gráfico",
