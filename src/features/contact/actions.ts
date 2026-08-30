@@ -4,14 +4,56 @@ import { headers } from "next/headers";
 
 import { SITE } from "@/config/site";
 import { alerter, mailer } from "@/lib/container";
-import { isRateLimited } from "@/lib/rate-limit";
+import { isRateLimited, rateLimit } from "@/lib/rate-limit";
 
 import type { ContactActionState } from "./types";
 
 import { buildConfirmationEmail, buildLeadEmail } from "./email-templates";
 import { findProfaneField } from "./profanity";
-import { contactSchema } from "./schema";
+import { isRecentDuplicate, rememberSubmission } from "./recent-submissions";
+import { contactSchema, type ContactInput } from "./schema";
 const MIN_FILL_TIME_MS = 3000;
+type ContactParseError = Extract<
+  ReturnType<typeof contactSchema.safeParse>,
+  { success: false }
+>["error"];
+/** Primeiro erro de cada campo, no formato que o formulário consome. */
+function firstErrorPerField(error: ContactParseError): Record<string, string> {
+  const fieldErrors: Record<string, string> = {};
+  for (const issue of error.issues) {
+    const key = issue.path[0];
+    if (typeof key === "string" && !(key in fieldErrors)) {
+      fieldErrors[key] = issue.message;
+    }
+  }
+  return fieldErrors;
+}
+/**
+ * Camadas anti-abuso que só fazem sentido depois do conteúdo validado:
+ * duplicata do mesmo envio e teto sustentado por IP (hora/dia). A rajada
+ * de 3/min e o honeypot ficam antes, no corpo da action.
+ *
+ * Devolve o estado a retornar quando alguma camada barra, ou `null` pra
+ * seguir com o envio. Duplicata volta como `success` de propósito — não é
+ * erro do visitante, e não faz sentido reenviar os dois e-mails.
+ */
+function checkSustainedAbuse(ip: string, data: ContactInput): ContactActionState | null {
+  if (isRecentDuplicate([ip, data.email, data.mensagem])) {
+    return { status: "success" };
+  }
+  // No máximo 6 envios por hora e 15 por dia do mesmo IP. Barra quem fica
+  // remandando o formulário o dia todo sem cair no limite de 1 minuto — e
+  // segura a cota de envio do Gmail (500/dia na conta gratuita).
+  const perHour = rateLimit("contact:hour", ip, { windowMs: 3_600_000, max: 6 });
+  const perDay = rateLimit("contact:day", ip, { windowMs: 86_400_000, max: 15 });
+  if (perHour.limited || perDay.limited) {
+    return {
+      status: "error",
+      message: `Você já enviou várias mensagens hoje. Se for urgente, escreve direto pra ${SITE.contact.email}.`,
+    };
+  }
+  return null;
+}
 /**
  * Alerta é sempre "melhor esforço": uma falha ao notificar (webhook fora do
  * ar, env não configurada) nunca pode derrubar a resposta pro visitante —
@@ -94,16 +136,19 @@ export async function submitContactAction(
     consentimento: formData.get("consentimento") === "on",
   });
   if (!parsed.success) {
-    const fieldErrors: Record<string, string> = {};
-    for (const issue of parsed.error.issues) {
-      const key = issue.path[0];
-      if (typeof key === "string" && !(key in fieldErrors)) {
-        fieldErrors[key] = issue.message;
-      }
-    }
-    return { status: "error", message: "Confira os campos destacados.", fieldErrors };
+    return {
+      status: "error",
+      message: "Confira os campos destacados.",
+      fieldErrors: firstErrorPerField(parsed.error),
+    };
   }
   const data = parsed.data;
+
+  const sustainedAbuse = checkSustainedAbuse(ip, data);
+  if (sustainedAbuse) {
+    return sustainedAbuse;
+  }
+
   const profaneField = findProfaneField(data);
   if (profaneField) {
     // Não deixa passar pro e-mail, mas quem cuida do formulário precisa
@@ -134,6 +179,9 @@ export async function submitContactAction(
   try {
     await mailer.send(buildLeadEmail(data));
     await mailer.send(buildConfirmationEmail(data));
+    // Só agora a digital vale — reenvio idêntico nos próximos 5 min é
+    // duplicata; falha acima não grava nada, pra não engolir o retry.
+    rememberSubmission([ip, data.email, data.mensagem]);
   } catch (error) {
     console.error("[contact] falha ao enviar e-mail", error);
     // O visitante já vê o erro (toast + mailto abaixo), mas quem precisa

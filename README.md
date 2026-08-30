@@ -114,3 +114,64 @@ adicionar ou remover uma palavra, edite o array `PT_BR_TERMS` (ou `EN_TERMS`, pr
 Termo ambíguo com uso comum e inofensivo em pt-BR (ex.: "rola", "pinto", "burro") foi deixado
 de fora de propósito — bloquear um lead de verdade é pior do que deixar passar um palavrão
 ocasional pro Discord.
+
+## Segurança e limites de uso
+
+Camadas para proteger o site e, principalmente, a **cota da Vercel** (invocação de função,
+otimização de imagem) e a **cota de envio do Gmail** (500/dia na conta gratuita). Tudo o que
+guarda contador está **em memória, por instância** — cobre o abuso comum (um IP martelando a
+mesma instância quente) e some a cada cold start. Para um teto forte e coordenado entre
+instâncias, trocar o armazenamento por Vercel KV / Upstash Redis mantendo a mesma assinatura
+de `src/lib/rate-limit.ts` (mesma ideia dos adapters de mailer/alerter).
+
+### Teto global de requisições (`src/proxy.ts`)
+
+Cada IP pode fazer até **120 requisições de página por minuto** (só `GET`/`HEAD`); acima
+disso o proxy responde `429` com `Retry-After` **sem renderizar a rota** — nenhuma invocação
+de função. É o freio contra "segurar F5" / script de reload em loop. Ajustável por env
+(`PROXY_RATE_LIMIT_RPM`), desligável com `PROXY_RATE_LIMIT_DISABLED=1` (nunca em produção).
+Ver `.env.example`.
+
+**Load balancing** não é código: a Vercel já distribui o tráfego entre instâncias
+automaticamente. O que segura a cota é servir página estática do CDN (as páginas deste site
+são estáticas) e barrar abuso antes de virar função — o teto acima.
+
+### Formulário de contato (`src/features/contact/actions.ts`)
+
+Camadas em ordem, da mais barata pra mais cara:
+
+1. **Honeypot** + **tempo mínimo de preenchimento** (3 s) — bot ingênuo cai fora sem erro.
+2. **Rajada:** 3 envios / minuto por IP.
+3. **Anti-duplicata:** mesmo conteúdo (IP + e-mail + mensagem) em até 5 min é tratado como
+   sucesso e não reenvia os dois e-mails — cobre duplo-clique, retry do navegador e replay
+   ingênuo de um POST (`src/features/contact/recent-submissions.ts`).
+4. **Teto sustentado:** 6 envios / hora e 15 / dia por IP — barra quem fica remandando o
+   formulário o dia todo sem cair no limite de 1 minuto, e segura a cota do Gmail.
+5. **Filtro de linguagem imprópria** (seção acima).
+
+Quem passa do teto vê uma mensagem pedindo pra escrever direto pra `uaideamg@gmail.com`.
+
+### Cabeçalhos de resposta (`next.config.ts`)
+
+`headers()` aplica em todas as rotas: `X-Content-Type-Options: nosniff`, `X-Frame-Options:
+DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` (câmera, mic,
+geolocalização e browsing-topics desligados) e `X-DNS-Prefetch-Control: on`. Só em produção
+(inclui preview da Vercel): `Strict-Transport-Security` (2 anos, `preload`) e uma
+**Content-Security-Policy**.
+
+A CSP fecha `frame-ancestors`, `object-src` e `base-uri`, e restringe imagem, iframe, fonte e
+conexão às origens que o site realmente usa (thumb de vídeo do YouTube/Vimeo, iframe de
+player). `script-src`/`style-src` ainda com `'unsafe-inline'` por causa do script inline
+`beforeInteractive` da intro e do estilo inline do Motion — endurecer com nonce é o próximo
+passo. Como `next dev` não roda a CSP (HMR usa `eval`), **valide num preview da Vercel** antes
+de mandar pra produção; se algo quebrar, trocar o header por `Content-Security-Policy-Report-Only`
+enquanto ajusta.
+
+Também em `next.config.ts`: `poweredByHeader: false` (não expõe a versão do Next) e
+`serverActions.bodySizeLimit: "64kb"` (corta o teto padrão de 1 MB de POST de Server Action).
+
+### Outros
+
+- `src/app/robots.ts` — libera o conteúdo e bloqueia `/api/` pra crawler.
+- `src/app/api/health/route.ts` — teto próprio de 60/min por IP e `Cache-Control: no-store`
+  (fica fora do alcance do proxy).
