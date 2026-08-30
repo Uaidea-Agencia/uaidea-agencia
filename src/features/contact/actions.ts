@@ -3,7 +3,7 @@
 import { headers } from "next/headers";
 
 import { SITE } from "@/config/site";
-import { alerter, mailer } from "@/lib/container";
+import { alerter, mailer, mailerLabel } from "@/lib/container";
 import { isRateLimited, rateLimit } from "@/lib/rate-limit";
 
 import type { ContactActionState } from "./types";
@@ -43,6 +43,9 @@ function firstErrorPerField(error: ContactParseError): Record<string, string> {
  */
 function checkSustainedAbuse(ip: string, data: ContactInput): ContactActionState | null {
   if (isRecentDuplicate([ip, data.email, data.mensagem])) {
+    console.info(
+      "[contact] duplicata recente (mesmo IP + e-mail + mensagem em < 5 min) — retorna sucesso sem reenviar",
+    );
     return { status: "success" };
   }
   // No máximo 6 envios por hora e 15 por dia do mesmo IP. Barra quem fica
@@ -51,6 +54,9 @@ function checkSustainedAbuse(ip: string, data: ContactInput): ContactActionState
   const perHour = rateLimit("contact:hour", ip, { windowMs: 3_600_000, max: 6 });
   const perDay = rateLimit("contact:day", ip, { windowMs: 86_400_000, max: 15 });
   if (perHour.limited || perDay.limited) {
+    console.warn(
+      `[contact] teto sustentado por IP atingido (hora: ${perHour.limited}, dia: ${perDay.limited})`,
+    );
     return {
       status: "error",
       message: `Você já enviou várias mensagens hoje. Se for urgente, escreve direto pra ${SITE.contact.email}.`,
@@ -114,17 +120,26 @@ export async function submitContactAction(
   _prevState: ContactActionState,
   formData: FormData,
 ): Promise<ContactActionState> {
+  console.info(`[contact] submit recebido — mailer: ${mailerLabel}`);
   const honeypot = formData.get("website");
   if (typeof honeypot === "string" && honeypot.length > 0) {
+    console.warn("[contact] honeypot 'website' preenchido — descartado como bot, retorna sucesso");
     return { status: "success" };
   }
   const startedAt = Number(formData.get("startedAt"));
-  if (!Number.isFinite(startedAt) || Date.now() - startedAt < MIN_FILL_TIME_MS) {
+  const fillDelta = Date.now() - startedAt;
+  if (!Number.isFinite(startedAt) || fillDelta < MIN_FILL_TIME_MS) {
+    console.warn(
+      `[contact] descartado pelo tempo mínimo de preenchimento — ${
+        Number.isFinite(startedAt) ? `${fillDelta}ms < ${MIN_FILL_TIME_MS}ms` : "startedAt ausente"
+      }, retorna sucesso`,
+    );
     return { status: "success" };
   }
   const headersList = await headers();
   const { ip, userAgent, referer, location } = getRequestContext(headersList);
   if (isRateLimited(ip)) {
+    console.warn("[contact] rate-limit de rajada (3/min por IP) atingido");
     return {
       status: "error",
       message: "Muitas tentativas em pouco tempo. Espera um minuto e tenta de novo.",
@@ -140,6 +155,7 @@ export async function submitContactAction(
     consentimento: formData.get("consentimento") === "on",
   });
   if (!parsed.success) {
+    console.warn("[contact] validação falhou", firstErrorPerField(parsed.error));
     return {
       status: "error",
       message: "Confira os campos destacados.",
@@ -181,8 +197,11 @@ export async function submitContactAction(
     };
   }
   try {
+    console.info(`[contact] enviando lead + confirmação via ${mailerLabel}`);
     await mailer.send(buildLeadEmail(data));
+    console.info("[contact] lead enviado");
     await mailer.send(buildConfirmationEmail(data));
+    console.info("[contact] confirmação enviada");
     // Só agora a digital vale — reenvio idêntico nos próximos 5 min é
     // duplicata; falha acima não grava nada, pra não engolir o retry.
     rememberSubmission([ip, data.email, data.mensagem]);
@@ -220,6 +239,7 @@ export async function submitContactAction(
   // mão, sem transformar um envio que deu certo em erro pro visitante.
   try {
     await mailer.send(buildConsentReceiptEmail(data, { acceptedAt: new Date(), ip, userAgent }));
+    console.info("[contact] comprovante de consentimento enviado");
   } catch (error) {
     console.error("[contact] falha ao enviar comprovante de consentimento", error);
     await notifyBestEffort("comprovante de consentimento", {

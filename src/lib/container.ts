@@ -41,6 +41,8 @@ function resolveMailer(): { instance: Mailer; label: string } {
 
 const resolvedMailer = resolveMailer();
 export const mailer: Mailer = resolvedMailer.instance;
+/** Nome legível do adapter de e-mail em uso — pra logar no fluxo de contato. */
+export const mailerLabel = resolvedMailer.label;
 // Loga uma vez por cold start — deixa explícito no log da Vercel qual adapter
 // está no ar, pra um "não chegou e-mail" não virar caça ao tesouro de novo.
 console.info(`[mailer] adapter ativo: ${resolvedMailer.label}`);
