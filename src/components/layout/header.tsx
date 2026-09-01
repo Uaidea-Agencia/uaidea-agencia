@@ -7,6 +7,7 @@ import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/layout/logo";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/components/ui/link";
+import { ScrambleText } from "@/components/ui/scramble-text";
 import { HEADER_CTA, MAIN_NAV, MOBILE_NAV } from "@/config/nav";
 import { ROUTES } from "@/config/routes";
 import { SITE } from "@/config/site";
@@ -19,8 +20,29 @@ export function Header() {
   const activeId = useActiveSection(SECTION_IDS);
   const reduceMotion = useReducedMotion();
   const headerRef = useRef<HTMLElement>(null);
+  const previousOverflowRef = useRef("");
   function handleLogoClick() {
     window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  }
+  // Trava/destrava o scroll do body de forma síncrona e imperativa — não via
+  // useEffect. Um item do menu navega para uma âncora (`/#servicos`) através
+  // do next/link, cujo onClick do usuário roda antes de despachar a navegação
+  // (ver node_modules/next/dist/client/app-dir/link.js), mas o scroll até o
+  // hash acontece dentro de um startTransition, ou seja, depois. Se a
+  // liberação do overflow dependesse de um useEffect (que só roda após o
+  // commit/paint), havia uma corrida: às vezes o Next tentava rolar a página
+  // enquanto o body ainda estava com overflow:hidden, e o scrollIntoView não
+  // tinha efeito nenhum — o clique "não ia" para a seção, de forma
+  // intermitente. Fazendo a troca de estilo aqui, no mesmo clique, ela já
+  // está aplicada antes do startTransition do Next rodar.
+  function openMenu() {
+    previousOverflowRef.current = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    setIsMenuOpen(true);
+  }
+  function closeMenu() {
+    document.body.style.overflow = previousOverflowRef.current;
+    setIsMenuOpen(false);
   }
   // Mantém `--header-height` (globals.css, usada em `scroll-padding-top`)
   // sincronizada com a altura real do header sticky, para que o scroll de
@@ -40,21 +62,22 @@ export function Header() {
       observer.disconnect();
     };
   }, []);
+  // Rede de segurança: se o header desmontar com o menu aberto, restaura o
+  // overflow original em vez de deixar o body travado para sempre. Sem
+  // condição em `isMenuOpen` de propósito — closures de useEffect com `[]`
+  // capturariam o valor da primeira render (sempre `false`); restaurar
+  // incondicionalmente é inofensivo quando o menu nunca abriu, porque
+  // `previousOverflowRef.current` continua `""` nesse caso.
   useEffect(() => {
-    if (!isMenuOpen) {
-      return;
-    }
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = previousOverflow;
+      document.body.style.overflow = previousOverflowRef.current;
     };
-  }, [isMenuOpen]);
+  }, []);
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 900px)");
     const handleChange = (event: MediaQueryListEvent) => {
       if (event.matches) {
-        setIsMenuOpen(false);
+        closeMenu();
       }
     };
     mq.addEventListener("change", handleChange);
@@ -119,9 +142,7 @@ export function Header() {
             aria-label="Abrir menu"
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
-            onClick={() => {
-              setIsMenuOpen(true);
-            }}
+            onClick={openMenu}
             className="focus-visible:ring-ring flex size-11 flex-col items-center justify-center gap-1.5 rounded-sm outline-none focus-visible:ring-2 min-[900px]:hidden"
           >
             <span className="bg-foreground block h-0.5 w-5.5" />
@@ -142,9 +163,7 @@ export function Header() {
           <button
             type="button"
             aria-label="Fechar menu"
-            onClick={() => {
-              setIsMenuOpen(false);
-            }}
+            onClick={closeMenu}
             className="text-primary focus-visible:ring-ring flex size-11 items-center justify-center rounded-sm outline-none focus-visible:ring-2"
           >
             <X aria-hidden="true" className="size-6" />
@@ -156,15 +175,18 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              onClick={() => {
-                setIsMenuOpen(false);
-              }}
+              onClick={closeMenu}
               className="border-border text-foreground focus-visible:ring-ring flex min-h-14 items-center gap-4 border-b outline-none focus-visible:ring-2"
             >
               <span className="text-muted-foreground font-mono text-xs tracking-[0.14em]">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <span className="font-display text-xl font-semibold">{link.label}</span>
+              <ScrambleText
+                text={link.label}
+                active={isMenuOpen}
+                delay={index * 70}
+                className="font-display text-xl font-semibold"
+              />
             </Link>
           ))}
         </nav>
@@ -174,12 +196,7 @@ export function Header() {
             size="block"
             nativeButton={false}
             render={
-              <Link
-                href={HEADER_CTA.href}
-                onClick={() => {
-                  setIsMenuOpen(false);
-                }}
-              >
+              <Link href={HEADER_CTA.href} onClick={closeMenu}>
                 {HEADER_CTA.label}
               </Link>
             }
